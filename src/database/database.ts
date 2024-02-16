@@ -2,6 +2,7 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 import { envSchema } from "../shared/schema";
+import * as schema from "./schema";
 
 const env = envSchema.parse(process.env);
 
@@ -12,4 +13,4 @@ export const connection = await mysql.createConnection({
 	password: env.DB_PASSWORD,
 });
 
-export const db = drizzle(connection);
+export const db = drizzle(connection, { schema, mode: "default" });

@@ -16,7 +16,7 @@ CREATE TABLE `equipments` (
 --> statement-breakpoint
 CREATE TABLE `labors` (
 	`id` serial AUTO_INCREMENT NOT NULL,
-	`employee_id` int NOT NULL,
+	`employee_id` bigint unsigned NOT NULL,
 	`description` varchar(256) NOT NULL,
 	`hourly_rate` decimal(10,1),
 	CONSTRAINT `labors_id` PRIMARY KEY(`id`)
@@ -24,7 +24,7 @@ CREATE TABLE `labors` (
 --> statement-breakpoint
 CREATE TABLE `messages` (
 	`id` serial AUTO_INCREMENT NOT NULL,
-	`user_id` int NOT NULL,
+	`user_id` bigint unsigned NOT NULL,
 	`created_at` timestamp DEFAULT (now()),
 	`message` varchar(256) NOT NULL,
 	CONSTRAINT `messages_id` PRIMARY KEY(`id`)
@@ -41,25 +41,25 @@ CREATE TABLE `products` (
 );
 --> statement-breakpoint
 CREATE TABLE `products_equipments` (
-	`product_id` int NOT NULL,
-	`equipment_id` int NOT NULL,
+	`product_id` bigint unsigned NOT NULL,
+	`equipment_id` bigint unsigned NOT NULL,
 	`hours` int unsigned NOT NULL DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE `products_labors` (
-	`product_id` int NOT NULL,
-	`labor_id` int NOT NULL,
+	`product_id` bigint unsigned NOT NULL,
+	`labor_id` bigint unsigned NOT NULL,
 	`hours` int unsigned NOT NULL DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE `products_resources` (
-	`product_id` int NOT NULL,
-	`resource_id` int NOT NULL,
+	`product_id` bigint unsigned NOT NULL,
+	`resource_id` bigint unsigned NOT NULL,
 	`hours` int unsigned NOT NULL DEFAULT 0
 );
 --> statement-breakpoint
 CREATE TABLE `replies` (
-	`id` int NOT NULL,
+	`id` bigint unsigned NOT NULL,
 	`created_at` timestamp DEFAULT (now()),
 	`text` text NOT NULL,
 	CONSTRAINT `replies_id` PRIMARY KEY(`id`)
@@ -78,6 +78,7 @@ CREATE TABLE `users` (
 	`full_name` varchar(256) NOT NULL,
 	`email` varchar(256) NOT NULL,
 	`password` varchar(256) NOT NULL,
+	`role` enum('ADMIN','USER') DEFAULT 'USER',
 	CONSTRAINT `users_id` PRIMARY KEY(`id`),
 	CONSTRAINT `users_email_unique` UNIQUE(`email`)
 );
