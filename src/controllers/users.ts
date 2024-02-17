@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import bcrypt from "bcryptjs";
 import { db } from "../database/database";
 import { insertUserSchema, users } from "../database/schema";
-import { response } from "../shared/utils";
+import { response, setJwt } from "../shared/utils";
 
 const app = new Hono();
 
@@ -31,12 +31,12 @@ app.post("/sign-up", async (c) => {
 	}
 
 	const isEmailTaken =
-		typeof (await db.query.users.findFirst({
+		(await db.query.users.findFirst({
 			columns: {
 				id: true,
 			},
 			where: (users, { eq }) => eq(users.email, parsedUser.data.email),
-		})) !== "undefined";
+		})) !== undefined;
 
 	if (isEmailTaken) {
 		return response(c, {
@@ -53,16 +53,68 @@ app.post("/sign-up", async (c) => {
 
 	return response(c, {
 		status: 200,
+		data: await db.query.users.findFirst({
+			columns: {
+				id: true,
+				fullName: true,
+				email: true,
+				role: true,
+			},
+			where: (users, { eq }) => eq(users.id, insertId),
+		}),
+	});
+});
+
+/**
+ * Login the user.
+ */
+app.post("/login", async (c) => {
+	let json;
+
+	try {
+		json = await c.req.json();
+	} catch (e) {
+		return response(c, {
+			status: 400,
+			message: "A JSON is required",
+		});
+	}
+
+	const credentials = insertUserSchema
+		.pick({ email: true, password: true })
+		.safeParse(json);
+
+	if (!credentials.success) {
+		return response(c, {
+			status: 422,
+			message: "The payload schema is invalid",
+		});
+	}
+
+	const user = await db.query.users.findFirst({
+		where: (users, { eq }) => eq(users.email, credentials.data.email),
+	});
+
+	const isCorrectPassword =
+		user !== undefined &&
+		(await bcrypt.compare(credentials.data.password, user.password));
+
+	if (!isCorrectPassword) {
+		return response(c, {
+			status: 401,
+			message: "The credentials are invalid",
+		});
+	}
+
+	// Set the JWT.
+	const token = await setJwt(c, user.id);
+	const { password, ...userWithoutPassword } = user;
+
+	return response(c, {
+		status: 200,
 		data: {
-			user: await db.query.users.findFirst({
-				columns: {
-					id: true,
-					fullName: true,
-					email: true,
-					role: true,
-				},
-				where: (users, { eq }) => eq(users.id, insertId),
-			}),
+			...userWithoutPassword,
+			token,
 		},
 	});
 });

@@ -1,8 +1,7 @@
-import "dotenv/config";
 import type { Config } from "drizzle-kit";
-import { envSchema } from "./src/shared/schema";
+import { getEnv } from "./src/shared/utils";
 
-const env = envSchema.parse(process.env);
+const env = getEnv();
 
 export default {
 	schema: "./src/database/schema.ts",
