@@ -1,4 +1,5 @@
 import {
+	bigint,
 	decimal,
 	int,
 	mysqlEnum,
@@ -19,6 +20,7 @@ export const users = mysqlTable("users", {
 	fullName: varchar("full_name", { length: 256 }).notNull(),
 	email: varchar("email", { length: 256 }).unique().notNull(),
 	password: varchar("password", { length: 256 }).notNull(),
+	role: mysqlEnum("role", ["ADMIN", "USER"]).default("USER"),
 });
 
 export const insertUserSchema = createInsertSchema(users, {
@@ -34,7 +36,7 @@ export const selectUserSchema = createSelectSchema(users);
  */
 export const messages = mysqlTable("messages", {
 	id: serial("id").primaryKey(),
-	userId: int("user_id")
+	userId: bigint("user_id", { unsigned: true, mode: "number" })
 		.references(() => users.id, {
 			onDelete: "cascade",
 		})
@@ -53,7 +55,7 @@ export const selectMessageSchema = createSelectSchema(messages);
  * The reply for the message.
  */
 export const replies = mysqlTable("replies", {
-	id: int("id")
+	id: bigint("id", { mode: "number", unsigned: true })
 		.primaryKey()
 		.references(() => messages.id, {
 			onDelete: "cascade",
@@ -122,7 +124,7 @@ export const selectEquipmentSchema = createSelectSchema(equipments);
  */
 export const labors = mysqlTable("labors", {
 	id: serial("id").primaryKey(),
-	employeeId: int("employee_id")
+	employeeId: bigint("employee_id", { mode: "number", unsigned: true })
 		.references(() => employees.id, {
 			onDelete: "cascade",
 		})
@@ -247,12 +249,12 @@ export const selectResourceSchema = createSelectSchema(resources);
  * The equipments used making a product.
  */
 export const productsEquipments = mysqlTable("products_equipments", {
-	productId: int("product_id")
+	productId: bigint("product_id", { mode: "number", unsigned: true })
 		.references(() => products.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	equipmentId: int("equipment_id")
+	equipmentId: bigint("equipment_id", { mode: "number", unsigned: true })
 		.references(() => equipments.id, {
 			onDelete: "restrict",
 		})
@@ -276,12 +278,12 @@ export const selectProductEquipmentSchema =
  * The labors done to make a product.
  */
 export const productsLabors = mysqlTable("products_labors", {
-	productId: int("product_id")
+	productId: bigint("product_id", { mode: "number", unsigned: true })
 		.references(() => products.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	laborId: int("labor_id")
+	laborId: bigint("labor_id", { mode: "number", unsigned: true })
 		.references(() => labors.id, {
 			onDelete: "restrict",
 		})
@@ -301,12 +303,12 @@ export const selectProductLaborSchema = createSelectSchema(productsLabors);
  * The resources used to make a product.
  */
 export const productsResources = mysqlTable("products_resources", {
-	productId: int("product_id")
+	productId: bigint("product_id", { mode: "number", unsigned: true })
 		.references(() => products.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	resourceId: int("resource_id")
+	resourceId: bigint("resource_id", { mode: "number", unsigned: true })
 		.references(() => resources.id, {
 			onDelete: "restrict",
 		})

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c399de7a-2819-4a73-b1a5-8a1c168b6b9e",
+  "id": "3303ebba-0cfe-4203-ab2d-66bb62d858ca",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -104,7 +104,7 @@
         },
         "employee_id": {
           "name": "employee_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -162,7 +162,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -275,14 +275,14 @@
       "columns": {
         "product_id": {
           "name": "product_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "equipment_id": {
           "name": "equipment_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -333,14 +333,14 @@
       "columns": {
         "product_id": {
           "name": "product_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "labor_id": {
           "name": "labor_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -391,14 +391,14 @@
       "columns": {
         "product_id": {
           "name": "product_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "resource_id": {
           "name": "resource_id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -449,7 +449,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
+          "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -571,6 +571,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "enum('ADMIN','USER')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'USER'"
         }
       },
       "indexes": {},
