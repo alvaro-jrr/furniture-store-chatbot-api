@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "3303ebba-0cfe-4203-ab2d-66bb62d858ca",
+  "id": "5ae0bfc3-cd2d-4d67-aa99-0d649dee296f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -31,6 +31,20 @@
         "role": {
           "name": "role",
           "type": "enum('WORKER','ADMINISTRATIVE')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "labor_description": {
+          "name": "labor_description",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hourly_rate": {
+          "name": "hourly_rate",
+          "type": "decimal(10,1)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -85,64 +99,6 @@
       "compositePrimaryKeys": {
         "equipments_id": {
           "name": "equipments_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "labors": {
-      "name": "labors",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "employee_id": {
-          "name": "employee_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "hourly_rate": {
-          "name": "hourly_rate",
-          "type": "decimal(10,1)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "labors_employee_id_employees_id_fk": {
-          "name": "labors_employee_id_employees_id_fk",
-          "tableFrom": "labors",
-          "tableTo": "employees",
-          "columnsFrom": [
-            "employee_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "labors_id": {
-          "name": "labors_id",
           "columns": [
             "id"
           ]
@@ -270,6 +226,64 @@
       },
       "uniqueConstraints": {}
     },
+    "products_employees": {
+      "name": "products_employees",
+      "columns": {
+        "product_id": {
+          "name": "product_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "employee_id": {
+          "name": "employee_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hours": {
+          "name": "hours",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "products_employees_product_id_products_id_fk": {
+          "name": "products_employees_product_id_products_id_fk",
+          "tableFrom": "products_employees",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "products_employees_employee_id_employees_id_fk": {
+          "name": "products_employees_employee_id_employees_id_fk",
+          "tableFrom": "products_employees",
+          "tableTo": "employees",
+          "columnsFrom": [
+            "employee_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "products_equipments": {
       "name": "products_equipments",
       "columns": {
@@ -317,64 +331,6 @@
           "tableTo": "equipments",
           "columnsFrom": [
             "equipment_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "products_labors": {
-      "name": "products_labors",
-      "columns": {
-        "product_id": {
-          "name": "product_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "labor_id": {
-          "name": "labor_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "hours": {
-          "name": "hours",
-          "type": "int unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "products_labors_product_id_products_id_fk": {
-          "name": "products_labors_product_id_products_id_fk",
-          "tableFrom": "products_labors",
-          "tableTo": "products",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "products_labors_labor_id_labors_id_fk": {
-          "name": "products_labors_labor_id_labors_id_fk",
-          "tableFrom": "products_labors",
-          "tableTo": "labors",
-          "columnsFrom": [
-            "labor_id"
           ],
           "columnsTo": [
             "id"

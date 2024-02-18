@@ -1,10 +1,10 @@
 import type { Context } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
+import type { JwtPayload } from "./types";
 import "dotenv/config";
 import dayjs from "dayjs";
 import { sign } from "hono/jwt";
 import { envSchema, jwtPayloadSchema } from "./schema";
-import type { JwtPayload } from "./types";
 
 export function validateNumberPrecision({
 	value,
@@ -33,10 +33,6 @@ export function response(
 		data?: unknown;
 	},
 ) {
-	if (typeof message === "undefined" && typeof data === "undefined") {
-		throw new Error("A message or data must be sent");
-	}
-
 	return context.json(
 		{
 			status,

@@ -3,120 +3,115 @@ import bcrypt from "bcryptjs";
 import { db } from "../database/database";
 import { insertUserSchema, users } from "../database/schema";
 import { response, setJwt } from "../shared/utils";
+import { validator } from "hono/validator";
 
 const app = new Hono();
 
 /**
  * Signs up an user.
  */
-app.post("/sign-up", async (c) => {
-	let json;
+app.post(
+	"/sign-up",
+	validator("json", (json, c) => {
+		const parsedUser = insertUserSchema.safeParse(json);
 
-	try {
-		json = await c.req.json();
-	} catch (e) {
-		return response(c, {
-			status: 400,
-			message: "A JSON is required",
+		if (!parsedUser.success) {
+			return response(c, {
+				status: 422,
+				message: "The payload schema is invalid",
+			});
+		}
+
+		return parsedUser.data;
+	}),
+	async (c) => {
+		const user = c.req.valid("json");
+
+		const isEmailTaken =
+			(await db.query.users.findFirst({
+				columns: {
+					id: true,
+				},
+				where: (users, { eq }) => eq(users.email, user.email),
+			})) !== undefined;
+
+		if (isEmailTaken) {
+			return response(c, {
+				status: 409,
+				message: "Email is taken",
+			});
+		}
+
+		const [{ insertId }] = await db.insert(users).values({
+			...user,
+			password: await bcrypt.hash(user.password, 10),
+			role: "USER",
 		});
-	}
 
-	const parsedUser = insertUserSchema.safeParse(json);
-
-	if (!parsedUser.success) {
 		return response(c, {
-			status: 422,
-			message: "The payload schema is invalid",
+			status: 200,
+			data: await db.query.users.findFirst({
+				columns: {
+					id: true,
+					fullName: true,
+					email: true,
+					role: true,
+				},
+				where: (users, { eq }) => eq(users.id, insertId),
+			}),
 		});
-	}
-
-	const isEmailTaken =
-		(await db.query.users.findFirst({
-			columns: {
-				id: true,
-			},
-			where: (users, { eq }) => eq(users.email, parsedUser.data.email),
-		})) !== undefined;
-
-	if (isEmailTaken) {
-		return response(c, {
-			status: 409,
-			message: "Email is taken",
-		});
-	}
-
-	const [{ insertId }] = await db.insert(users).values({
-		...parsedUser.data,
-		password: await bcrypt.hash(parsedUser.data.password, 10),
-		role: "USER",
-	});
-
-	return response(c, {
-		status: 200,
-		data: await db.query.users.findFirst({
-			columns: {
-				id: true,
-				fullName: true,
-				email: true,
-				role: true,
-			},
-			where: (users, { eq }) => eq(users.id, insertId),
-		}),
-	});
-});
+	},
+);
 
 /**
  * Login the user.
  */
-app.post("/login", async (c) => {
-	let json;
+app.post(
+	"/login",
+	validator("json", (json, c) => {
+		const parsedUser = insertUserSchema
+			.pick({ email: true, password: true })
+			.safeParse(json);
 
-	try {
-		json = await c.req.json();
-	} catch (e) {
-		return response(c, {
-			status: 400,
-			message: "A JSON is required",
+		if (!parsedUser.success) {
+			return response(c, {
+				status: 422,
+				message: "The payload schema is invalid",
+			});
+		}
+
+		return parsedUser.data;
+	}),
+	async (c) => {
+		const credentials = c.req.valid("json");
+
+		const user = await db.query.users.findFirst({
+			where: (users, { eq }) => eq(users.email, credentials.email),
 		});
-	}
 
-	const credentials = insertUserSchema
-		.pick({ email: true, password: true })
-		.safeParse(json);
+		const isCorrectPassword =
+			user !== undefined &&
+			(await bcrypt.compare(credentials.password, user.password));
 
-	if (!credentials.success) {
+		if (!isCorrectPassword) {
+			return response(c, {
+				status: 401,
+				message: "The credentials are invalid",
+			});
+		}
+
+		// Set the JWT.
+		const token = await setJwt(c, user.id);
+		const { password, ...userWithoutPassword } = user;
+
 		return response(c, {
-			status: 422,
-			message: "The payload schema is invalid",
+			status: 200,
+			data: {
+				...userWithoutPassword,
+				token,
+			},
 		});
-	}
-
-	const user = await db.query.users.findFirst({
-		where: (users, { eq }) => eq(users.email, credentials.data.email),
-	});
-
-	const isCorrectPassword =
-		user !== undefined &&
-		(await bcrypt.compare(credentials.data.password, user.password));
-
-	if (!isCorrectPassword) {
-		return response(c, {
-			status: 401,
-			message: "The credentials are invalid",
-		});
-	}
-
-	// Set the JWT.
-	const token = await setJwt(c, user.id);
-	const { password, ...userWithoutPassword } = user;
-
-	return response(c, {
-		status: 200,
-		data: {
-			...userWithoutPassword,
-			token,
-		},
-	});
-});
+	},
+);
 
 export default app;

@@ -78,12 +78,31 @@ export const employees = mysqlTable("employees", {
 	fullName: varchar("full_name", { length: 256 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 256 }).notNull(),
 	role: mysqlEnum("role", ["WORKER", "ADMINISTRATIVE"]).notNull(),
+	laborDescription: varchar("labor_description", { length: 256 }).notNull(),
+	hourlyRate: decimal("hourly_rate", {
+		precision: 10,
+		scale: 1,
+	}).notNull(),
 	address: varchar("address", { length: 256 }),
 });
 
 export const insertEmployeeSchema = createInsertSchema(employees, {
 	fullName: (schema) => schema.fullName.min(1),
 	phoneNumber: (schema) => schema.phoneNumber.min(1),
+	laborDescription: (schema) => schema.laborDescription.min(1),
+	hourlyRate: (schema) =>
+		schema.hourlyRate.refine((value) => {
+			const parsedValue = Number(value);
+
+			if (value.length === 0 || isNaN(parsedValue)) return false;
+
+			if (parsedValue < 0) return false;
+
+			return validateNumberPrecision({
+				value: parsedValue,
+				maxPrecision: 1,
+			});
+		}),
 });
 
 export const selectEmployeeSchema = createSelectSchema(employees);
@@ -118,42 +137,6 @@ export const insertEquipmentSchema = createInsertSchema(equipments, {
 });
 
 export const selectEquipmentSchema = createSelectSchema(equipments);
-
-/**
- * The labors an employee can do.
- */
-export const labors = mysqlTable("labors", {
-	id: serial("id").primaryKey(),
-	employeeId: bigint("employee_id", { mode: "number", unsigned: true })
-		.references(() => employees.id, {
-			onDelete: "cascade",
-		})
-		.notNull(),
-	description: varchar("description", { length: 256 }).notNull(),
-	hourlyRate: decimal("hourly_rate", {
-		precision: 10,
-		scale: 1,
-	}),
-});
-
-export const insertLaborSchema = createInsertSchema(labors, {
-	employeeId: (schema) => schema.employeeId.nonnegative(),
-	hourlyRate: (schema) =>
-		schema.hourlyRate.refine((value) => {
-			const parsedValue = Number(value);
-
-			if (value.length === 0 || isNaN(parsedValue)) return false;
-
-			if (parsedValue < 0) return false;
-
-			return validateNumberPrecision({
-				value: parsedValue,
-				maxPrecision: 1,
-			});
-		}),
-});
-
-export const selectLaborSchema = createSelectSchema(labors);
 
 /**
  * The products or furnitures.
@@ -277,27 +260,27 @@ export const selectProductEquipmentSchema =
 /**
  * The labors done to make a product.
  */
-export const productsLabors = mysqlTable("products_labors", {
+export const productsEmployees = mysqlTable("products_employees", {
 	productId: bigint("product_id", { mode: "number", unsigned: true })
 		.references(() => products.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	laborId: bigint("labor_id", { mode: "number", unsigned: true })
-		.references(() => labors.id, {
+	employeeId: bigint("employee_id", { mode: "number", unsigned: true })
+		.references(() => employees.id, {
 			onDelete: "restrict",
 		})
 		.notNull(),
 	hours: int("hours", { unsigned: true }).notNull().default(0),
 });
 
-export const insertProductLaborSchema = createInsertSchema(productsLabors, {
+export const insertProductLaborSchema = createInsertSchema(productsEmployees, {
 	productId: (schema) => schema.productId.nonnegative(),
-	laborId: (schema) => schema.laborId.nonnegative(),
+	employeeId: (schema) => schema.employeeId.nonnegative(),
 	hours: (schema) => schema.hours.nonnegative(),
 });
 
-export const selectProductLaborSchema = createSelectSchema(productsLabors);
+export const selectProductLaborSchema = createSelectSchema(productsEmployees);
 
 /**
  * The resources used to make a product.
