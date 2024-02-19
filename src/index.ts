@@ -6,6 +6,7 @@ import { logger } from "hono/logger";
 import type { StatusCode } from "hono/utils/http-status";
 
 import employees from "./controllers/employees";
+import equipments from "./controllers/equipments";
 import users from "./controllers/users";
 import { getEnv, response } from "./shared/utils";
 
@@ -20,6 +21,7 @@ app.get("/", (c) => c.text("Welcome"));
 
 app.route("/users", users);
 app.route("/employees", employees);
+app.route("/equipments", equipments);
 
 app.onError((err, c) => {
 	return response(c, {
