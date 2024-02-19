@@ -11,14 +11,17 @@ import { products } from "~/database/schema";
 export async function updateProductionCost({
 	productId,
 	productEmployeeId,
+	productEquipmentId,
 }: {
 	productId?: number;
 	productEmployeeId?: number;
+	productEquipmentId?: number;
 }) {
 	// Verify that only an id is set.
 	if (
-		[productId, productEmployeeId].filter((id) => id !== undefined)
-			.length === 1
+		[productId, productEmployeeId, productEquipmentId].filter(
+			(id) => id !== undefined,
+		).length === 1
 	) {
 		throw new Error("Only set an id for the product query");
 	}
@@ -30,15 +33,15 @@ export async function updateProductionCost({
 		where:
 			productId === undefined
 				? undefined
-				: (product, { eq }) => eq(product.id, productId),
+				: (products, { eq }) => eq(products.id, productId),
 		with: {
 			employees: {
 				columns: { hours: true },
 				where:
 					productEmployeeId === undefined
 						? undefined
-						: (productEmployee, { eq }) =>
-								eq(productEmployee.id, productEmployeeId),
+						: (productsEmployees, { eq }) =>
+								eq(productsEmployees.id, productEmployeeId),
 				with: {
 					employee: {
 						columns: { hourlyRate: true },
@@ -47,6 +50,14 @@ export async function updateProductionCost({
 			},
 			equipments: {
 				columns: { hours: true },
+				where:
+					productEquipmentId === undefined
+						? undefined
+						: (productsEquipments, { eq }) =>
+								eq(
+									productsEquipments.equipmentId,
+									productEquipmentId,
+								),
 				with: {
 					equipment: {
 						columns: { hourlyRate: true },

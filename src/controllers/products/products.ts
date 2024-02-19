@@ -8,11 +8,13 @@ import { response } from "~/shared/utils";
 import { paramsValidator } from "~/shared/validators";
 
 import employees from "./employees";
+import equipments from "./equipments";
 
 const app = new Hono();
 
 // Relation routes.
 app.route("/employees", employees);
+app.route("/equipments", equipments);
 
 /**
  * Wether the product exists.

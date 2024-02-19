@@ -14,7 +14,7 @@ const app = new Hono();
 /**
  * Wether the equipment exists.
  */
-async function equipmentExists(id: number) {
+export async function equipmentExists(id: number) {
 	return (
 		(await db.query.equipments.findFirst({
 			where: (equipments, { eq }) => eq(equipments.id, id),
