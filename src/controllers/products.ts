@@ -72,7 +72,7 @@ app.get("/:id", validator("param", paramsValidator), async (c) => {
 });
 
 /**
- * Updates an employee.
+ * Updates a product.
  */
 app.put(
 	"/:id",

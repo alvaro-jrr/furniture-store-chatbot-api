@@ -8,6 +8,7 @@ import type { StatusCode } from "hono/utils/http-status";
 import employees from "./controllers/employees";
 import equipments from "./controllers/equipments";
 import products from "./controllers/products";
+import resources from "./controllers/resources";
 import users from "./controllers/users";
 import { getEnv, response } from "./shared/utils";
 
@@ -24,6 +25,7 @@ app.route("/users", users);
 app.route("/employees", employees);
 app.route("/equipments", equipments);
 app.route("/products", products);
+app.route("/resources", resources);
 
 app.onError((err, c) => {
 	return response(c, {
