@@ -1,10 +1,11 @@
 import { eq } from "drizzle-orm";
 import { type Context, Hono } from "hono";
 import { validator } from "hono/validator";
-import { response } from "../shared/utils";
-import { employees, insertEmployeeSchema } from "../database/schema";
-import { db } from "../database/database";
-import { paramsValidator } from "../shared/validators";
+
+import { db } from "~/database/database";
+import { employees, insertEmployeeSchema } from "~/database/schema";
+import { response } from "~/shared/utils";
+import { paramsValidator } from "~/shared/validators";
 
 const app = new Hono();
 

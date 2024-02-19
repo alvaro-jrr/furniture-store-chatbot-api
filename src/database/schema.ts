@@ -10,7 +10,8 @@ import {
 	varchar,
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { validateNumberPrecision } from "../shared/utils";
+
+import { validateNumberPrecision } from "~/shared/utils";
 
 /**
  * The users of the app.

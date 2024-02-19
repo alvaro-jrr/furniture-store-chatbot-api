@@ -1,9 +1,10 @@
-import { Hono } from "hono";
 import bcrypt from "bcryptjs";
-import { db } from "../database/database";
-import { insertUserSchema, users } from "../database/schema";
-import { response, setJwt } from "../shared/utils";
+import { Hono } from "hono";
 import { validator } from "hono/validator";
+
+import { db } from "~/database/database";
+import { insertUserSchema, users } from "~/database/schema";
+import { response, setJwt } from "~/shared/utils";
 
 const app = new Hono();
 

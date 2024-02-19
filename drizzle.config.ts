@@ -1,4 +1,5 @@
 import type { Config } from "drizzle-kit";
+
 import { getEnv } from "./src/shared/utils";
 
 const env = getEnv();

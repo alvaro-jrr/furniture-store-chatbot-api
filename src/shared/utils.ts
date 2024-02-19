@@ -1,10 +1,11 @@
-import type { Context } from "hono";
-import type { StatusCode } from "hono/utils/http-status";
-import type { JwtPayload } from "./types";
-import "dotenv/config";
 import dayjs from "dayjs";
+import "dotenv/config";
+import type { Context } from "hono";
 import { sign } from "hono/jwt";
+import type { StatusCode } from "hono/utils/http-status";
+
 import { envSchema, jwtPayloadSchema } from "./schema";
+import type { JwtPayload } from "./types";
 
 export function validateNumberPrecision({
 	value,

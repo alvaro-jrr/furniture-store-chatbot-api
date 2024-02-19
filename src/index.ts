@@ -1,12 +1,12 @@
+import { serve } from "@hono/node-server";
+import "dotenv/config";
+import { Hono } from "hono";
+import { jwt } from "hono/jwt";
+import { logger } from "hono/logger";
 import type { StatusCode } from "hono/utils/http-status";
 
-import "dotenv/config";
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-import { logger } from "hono/logger";
-import { jwt } from "hono/jwt";
-import users from "./controllers/users";
 import employees from "./controllers/employees";
+import users from "./controllers/users";
 import { getEnv, response } from "./shared/utils";
 
 const app = new Hono();
