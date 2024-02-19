@@ -115,7 +115,7 @@ export const equipments = mysqlTable("equipments", {
 	hourlyRate: decimal("hourly_rate", {
 		precision: 10,
 		scale: 1,
-	}),
+	}).notNull(),
 });
 
 /**

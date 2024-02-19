@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "961220de-732d-4ca6-a085-580735def02c",
+  "id": "22d92b45-34f4-43e8-a837-eecb18fde0d1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -90,7 +90,7 @@
           "name": "hourly_rate",
           "type": "decimal(10,1)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },

@@ -12,6 +12,7 @@ import { paramsValidator } from "~/shared/validators";
 
 import { employeeExists } from "../employees";
 import { productExists } from "./products";
+import { updateProductionCost } from "./utils";
 
 const app = new Hono();
 
@@ -88,6 +89,8 @@ app.post(
 		}
 
 		await db.insert(productsEmployees).values(productEmployee);
+		await updateProductionCost({ productId: productEmployee.productId });
+
 		return response(c, { status: 200 });
 	},
 );
@@ -129,6 +132,8 @@ app.put(
 			})
 			.where(eq(productsEmployees.id, productEmployeeId));
 
+		await updateProductionCost({ productEmployeeId });
+
 		return response(c, { status: 200 });
 	},
 );
@@ -150,6 +155,8 @@ app.delete("/:id", validator("param", paramsValidator), async (c) => {
 	await db
 		.delete(productsEmployees)
 		.where(eq(productsEmployees.id, productEmployeeId));
+
+	await updateProductionCost({ productEmployeeId });
 
 	return response(c, { status: 200 });
 });

@@ -12,7 +12,7 @@ CREATE TABLE `employees` (
 CREATE TABLE `equipments` (
 	`id` serial AUTO_INCREMENT NOT NULL,
 	`name` varchar(256) NOT NULL,
-	`hourly_rate` decimal(10,1),
+	`hourly_rate` decimal(10,1) NOT NULL,
 	CONSTRAINT `equipments_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
