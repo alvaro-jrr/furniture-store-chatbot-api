@@ -12,7 +12,7 @@ const app = new Hono();
 /**
  * Wether the employee exists.
  */
-async function employeeExists(id: number) {
+export async function employeeExists(id: number) {
 	return (
 		(await db.query.employees.findFirst({
 			where: (employees, { eq }) => eq(employees.id, id),

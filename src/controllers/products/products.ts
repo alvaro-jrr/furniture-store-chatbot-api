@@ -7,12 +7,17 @@ import { insertProductSchema, products } from "~/database/schema";
 import { response } from "~/shared/utils";
 import { paramsValidator } from "~/shared/validators";
 
+import employees from "./employees";
+
 const app = new Hono();
+
+// Relation routes.
+app.route("/employees", employees);
 
 /**
  * Wether the product exists.
  */
-async function productExists(id: number) {
+export async function productExists(id: number) {
 	return (
 		(await db.query.products.findFirst({
 			where: (products, { eq }) => eq(products.id, id),
@@ -27,7 +32,7 @@ async function productExists(id: number) {
  * @param context - The app context.
  * @returns The error response or the parsed data.
  */
-export function productValidator(json: any, context: Context) {
+function productValidator(json: any, context: Context) {
 	const parsedProduct = insertProductSchema.safeParse(json);
 
 	if (!parsedProduct.success) {

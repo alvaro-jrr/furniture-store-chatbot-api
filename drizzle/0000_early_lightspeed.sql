@@ -36,21 +36,30 @@ CREATE TABLE `products` (
 );
 --> statement-breakpoint
 CREATE TABLE `products_employees` (
+	`id` serial AUTO_INCREMENT NOT NULL,
 	`product_id` bigint unsigned NOT NULL,
 	`employee_id` bigint unsigned NOT NULL,
-	`hours` int unsigned NOT NULL DEFAULT 0
+	`hours` int unsigned NOT NULL,
+	CONSTRAINT `products_employees_id` PRIMARY KEY(`id`),
+	CONSTRAINT `product_employee_unique` UNIQUE(`product_id`,`employee_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `products_equipments` (
+	`id` serial AUTO_INCREMENT NOT NULL,
 	`product_id` bigint unsigned NOT NULL,
 	`equipment_id` bigint unsigned NOT NULL,
-	`hours` int unsigned NOT NULL DEFAULT 0
+	`hours` int unsigned NOT NULL,
+	CONSTRAINT `products_equipments_id` PRIMARY KEY(`id`),
+	CONSTRAINT `product_equipment_unique` UNIQUE(`product_id`,`equipment_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `products_resources` (
+	`id` serial AUTO_INCREMENT NOT NULL,
 	`product_id` bigint unsigned NOT NULL,
 	`resource_id` bigint unsigned NOT NULL,
-	`hours` int unsigned NOT NULL DEFAULT 0
+	`hours` int unsigned NOT NULL,
+	CONSTRAINT `products_resources_id` PRIMARY KEY(`id`),
+	CONSTRAINT `product_resource_unique` UNIQUE(`product_id`,`resource_id`)
 );
 --> statement-breakpoint
 CREATE TABLE `resources` (

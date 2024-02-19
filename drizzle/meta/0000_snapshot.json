@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "d474e7b9-65d3-40ad-8b0c-252200dd2bed",
+  "id": "961220de-732d-4ca6-a085-580735def02c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -237,6 +237,13 @@
     "products_employees": {
       "name": "products_employees",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
         "product_id": {
           "name": "product_id",
           "type": "bigint unsigned",
@@ -256,8 +263,7 @@
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -289,12 +295,34 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "compositePrimaryKeys": {
+        "products_employees_id": {
+          "name": "products_employees_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_employee_unique": {
+          "name": "product_employee_unique",
+          "columns": [
+            "product_id",
+            "employee_id"
+          ]
+        }
+      }
     },
     "products_equipments": {
       "name": "products_equipments",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
         "product_id": {
           "name": "product_id",
           "type": "bigint unsigned",
@@ -314,8 +342,7 @@
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -347,12 +374,34 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "compositePrimaryKeys": {
+        "products_equipments_id": {
+          "name": "products_equipments_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_equipment_unique": {
+          "name": "product_equipment_unique",
+          "columns": [
+            "product_id",
+            "equipment_id"
+          ]
+        }
+      }
     },
     "products_resources": {
       "name": "products_resources",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
         "product_id": {
           "name": "product_id",
           "type": "bigint unsigned",
@@ -372,8 +421,7 @@
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -405,8 +453,23 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "compositePrimaryKeys": {
+        "products_resources_id": {
+          "name": "products_resources_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_resource_unique": {
+          "name": "product_resource_unique",
+          "columns": [
+            "product_id",
+            "resource_id"
+          ]
+        }
+      }
     },
     "resources": {
       "name": "resources",

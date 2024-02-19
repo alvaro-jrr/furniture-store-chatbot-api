@@ -8,6 +8,7 @@ import {
 	serial,
 	text,
 	timestamp,
+	unique,
 	varchar,
 } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -252,19 +253,26 @@ export const selectResourceSchema = createSelectSchema(resources);
 /**
  * The equipments used making a product.
  */
-export const productsEquipments = mysqlTable("products_equipments", {
-	productId: bigint("product_id", { mode: "number", unsigned: true })
-		.references(() => products.id, {
-			onDelete: "cascade",
-		})
-		.notNull(),
-	equipmentId: bigint("equipment_id", { mode: "number", unsigned: true })
-		.references(() => equipments.id, {
-			onDelete: "restrict",
-		})
-		.notNull(),
-	hours: int("hours", { unsigned: true }).notNull().default(0),
-});
+export const productsEquipments = mysqlTable(
+	"products_equipments",
+	{
+		id: serial("id").primaryKey(),
+		productId: bigint("product_id", { mode: "number", unsigned: true })
+			.references(() => products.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		equipmentId: bigint("equipment_id", { mode: "number", unsigned: true })
+			.references(() => equipments.id, {
+				onDelete: "restrict",
+			})
+			.notNull(),
+		hours: int("hours", { unsigned: true }).notNull(),
+	},
+	(t) => ({
+		unq: unique("product_equipment_unique").on(t.productId, t.equipmentId),
+	}),
+);
 
 /**
  * The relation between product and equipment.
@@ -288,7 +296,7 @@ export const insertProductEquipmentSchema = createInsertSchema(
 	{
 		productId: (schema) => schema.productId.nonnegative(),
 		equipmentId: (schema) => schema.equipmentId.nonnegative(),
-		hours: (schema) => schema.hours.nonnegative(),
+		hours: (schema) => schema.hours.positive(),
 	},
 );
 
@@ -296,21 +304,28 @@ export const selectProductEquipmentSchema =
 	createSelectSchema(productsEquipments);
 
 /**
- * The labors done to make a product.
+ * The employees that worked in a product.
  */
-export const productsEmployees = mysqlTable("products_employees", {
-	productId: bigint("product_id", { mode: "number", unsigned: true })
-		.references(() => products.id, {
-			onDelete: "cascade",
-		})
-		.notNull(),
-	employeeId: bigint("employee_id", { mode: "number", unsigned: true })
-		.references(() => employees.id, {
-			onDelete: "restrict",
-		})
-		.notNull(),
-	hours: int("hours", { unsigned: true }).notNull().default(0),
-});
+export const productsEmployees = mysqlTable(
+	"products_employees",
+	{
+		id: serial("id").primaryKey(),
+		productId: bigint("product_id", { mode: "number", unsigned: true })
+			.references(() => products.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		employeeId: bigint("employee_id", { mode: "number", unsigned: true })
+			.references(() => employees.id, {
+				onDelete: "restrict",
+			})
+			.notNull(),
+		hours: int("hours", { unsigned: true }).notNull(),
+	},
+	(t) => ({
+		unq: unique("product_employee_unique").on(t.productId, t.employeeId),
+	}),
+);
 
 /**
  * The relation between a product and an employee.
@@ -329,30 +344,41 @@ export const productsEmployeesRelations = relations(
 	}),
 );
 
-export const insertProductLaborSchema = createInsertSchema(productsEmployees, {
-	productId: (schema) => schema.productId.nonnegative(),
-	employeeId: (schema) => schema.employeeId.nonnegative(),
-	hours: (schema) => schema.hours.nonnegative(),
-});
+export const insertProductEmployeeSchema = createInsertSchema(
+	productsEmployees,
+	{
+		productId: (schema) => schema.productId.nonnegative(),
+		employeeId: (schema) => schema.employeeId.nonnegative(),
+		hours: (schema) => schema.hours.positive(),
+	},
+);
 
-export const selectProductLaborSchema = createSelectSchema(productsEmployees);
+export const selectProductEmployeeSchema =
+	createSelectSchema(productsEmployees);
 
 /**
  * The resources used to make a product.
  */
-export const productsResources = mysqlTable("products_resources", {
-	productId: bigint("product_id", { mode: "number", unsigned: true })
-		.references(() => products.id, {
-			onDelete: "cascade",
-		})
-		.notNull(),
-	resourceId: bigint("resource_id", { mode: "number", unsigned: true })
-		.references(() => resources.id, {
-			onDelete: "restrict",
-		})
-		.notNull(),
-	quantity: int("hours", { unsigned: true }).notNull().default(0),
-});
+export const productsResources = mysqlTable(
+	"products_resources",
+	{
+		id: serial("id").primaryKey(),
+		productId: bigint("product_id", { mode: "number", unsigned: true })
+			.references(() => products.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		resourceId: bigint("resource_id", { mode: "number", unsigned: true })
+			.references(() => resources.id, {
+				onDelete: "restrict",
+			})
+			.notNull(),
+		quantity: int("hours", { unsigned: true }).notNull(),
+	},
+	(t) => ({
+		unq: unique("product_resource_unique").on(t.productId, t.resourceId),
+	}),
+);
 
 /**
  * The relation between a product and the resources.
@@ -376,7 +402,7 @@ export const insertProductResourceSchema = createInsertSchema(
 	{
 		productId: (schema) => schema.productId.nonnegative(),
 		resourceId: (schema) => schema.resourceId.nonnegative(),
-		quantity: (schema) => schema.quantity.nonnegative(),
+		quantity: (schema) => schema.quantity.positive(),
 	},
 );
 
