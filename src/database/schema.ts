@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
 	bigint,
 	decimal,
@@ -24,6 +25,13 @@ export const users = mysqlTable("users", {
 	role: mysqlEnum("role", ["ADMIN", "USER"]).default("USER"),
 });
 
+/**
+ * The user relations.
+ */
+export const usersRelations = relations(users, ({ many }) => ({
+	messages: many(messages),
+}));
+
 export const insertUserSchema = createInsertSchema(users, {
 	fullName: (schema) => schema.fullName.min(1),
 	email: (schema) => schema.email.email(),
@@ -43,33 +51,15 @@ export const messages = mysqlTable("messages", {
 		})
 		.notNull(),
 	createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
-	text: varchar("message", { length: 256 }).notNull(),
+	text: varchar("text", { length: 256 }).notNull(),
+	reply: text("reply").default(""),
 });
 
 export const insertMessageSchema = createInsertSchema(messages, {
-	text: (schema) => schema.text.min(1),
+	reply: (schema) => schema.reply.min(1),
 });
 
 export const selectMessageSchema = createSelectSchema(messages);
-
-/**
- * The reply for the message.
- */
-export const replies = mysqlTable("replies", {
-	id: bigint("id", { mode: "number", unsigned: true })
-		.primaryKey()
-		.references(() => messages.id, {
-			onDelete: "cascade",
-		}),
-	createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
-	text: text("text").notNull(),
-});
-
-export const insertReplySchema = createInsertSchema(replies, {
-	text: (schema) => schema.text.min(1),
-});
-
-export const selectReplySchema = createSelectSchema(replies);
 
 /**
  * The employees of the store.
@@ -86,6 +76,13 @@ export const employees = mysqlTable("employees", {
 	}).notNull(),
 	address: varchar("address", { length: 256 }),
 });
+
+/**
+ * The employee relations.
+ */
+export const employeesRelations = relations(employees, ({ many }) => ({
+	products: many(productsEmployees),
+}));
 
 export const insertEmployeeSchema = createInsertSchema(employees, {
 	fullName: (schema) => schema.fullName.min(1),
@@ -119,6 +116,13 @@ export const equipments = mysqlTable("equipments", {
 		scale: 1,
 	}),
 });
+
+/**
+ * The equipment relations.
+ */
+export const equipmentsRelations = relations(equipments, ({ many }) => ({
+	products: many(productsEmployees),
+}));
 
 export const insertEquipmentSchema = createInsertSchema(equipments, {
 	name: (schema) => schema.name.min(1),
@@ -160,6 +164,15 @@ export const products = mysqlTable("products", {
 		.default("0"),
 	stock: int("stock", { unsigned: true }).notNull().default(0),
 });
+
+/**
+ * The product relations.
+ */
+export const productsRelations = relations(products, ({ many }) => ({
+	employees: many(productsEmployees),
+	resources: many(productsResources),
+	equipments: many(productsEquipments),
+}));
 
 export const insertProductSchema = createInsertSchema(products, {
 	name: (schema) => schema.name.min(1),
@@ -210,6 +223,13 @@ export const resources = mysqlTable("resources", {
 		.default("0"),
 });
 
+/**
+ * The resource relations.
+ */
+export const resourcesRelations = relations(resources, ({ many }) => ({
+	products: many(productsResources),
+}));
+
 export const insertResourceSchema = createInsertSchema(resources, {
 	name: (schema) => schema.name.min(1),
 	unitPrice: (schema) =>
@@ -246,6 +266,23 @@ export const productsEquipments = mysqlTable("products_equipments", {
 	hours: int("hours", { unsigned: true }).notNull().default(0),
 });
 
+/**
+ * The relation between product and equipment.
+ */
+export const productsEquipmentsRelations = relations(
+	productsEquipments,
+	({ one }) => ({
+		product: one(products, {
+			fields: [productsEquipments.productId],
+			references: [products.id],
+		}),
+		equipment: one(equipments, {
+			fields: [productsEquipments.equipmentId],
+			references: [equipments.id],
+		}),
+	}),
+);
+
 export const insertProductEquipmentSchema = createInsertSchema(
 	productsEquipments,
 	{
@@ -275,6 +312,23 @@ export const productsEmployees = mysqlTable("products_employees", {
 	hours: int("hours", { unsigned: true }).notNull().default(0),
 });
 
+/**
+ * The relation between a product and an employee.
+ */
+export const productsEmployeesRelations = relations(
+	productsEmployees,
+	({ one }) => ({
+		product: one(products, {
+			fields: [productsEmployees.productId],
+			references: [products.id],
+		}),
+		employee: one(employees, {
+			fields: [productsEmployees.employeeId],
+			references: [employees.id],
+		}),
+	}),
+);
+
 export const insertProductLaborSchema = createInsertSchema(productsEmployees, {
 	productId: (schema) => schema.productId.nonnegative(),
 	employeeId: (schema) => schema.employeeId.nonnegative(),
@@ -299,6 +353,23 @@ export const productsResources = mysqlTable("products_resources", {
 		.notNull(),
 	quantity: int("hours", { unsigned: true }).notNull().default(0),
 });
+
+/**
+ * The relation between a product and the resources.
+ */
+export const productsResourcesRelations = relations(
+	productsResources,
+	({ one }) => ({
+		product: one(products, {
+			fields: [productsResources.productId],
+			references: [products.id],
+		}),
+		resource: one(resources, {
+			fields: [productsResources.resourceId],
+			references: [resources.id],
+		}),
+	}),
+);
 
 export const insertProductResourceSchema = createInsertSchema(
 	productsResources,

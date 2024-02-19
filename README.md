@@ -9,19 +9,5 @@
 1. Install [pnpm](https://pnpm.io/).
 2. Run `pnpm install`.
 3. Create an `.env` based on the `.env.example`.
-4. Run `pnpm drizzle-kit generate:mysql` to generate the migration.
-5. Run `pnpm run dev` and open `http://localhost:3000`.
-
-## Database
-
-#### Generate migration
-
-```
-pnpm drizzle-kit generate:mysql
-```
-
-#### Run the migrations
-
-```
-pnpm tsx src/database/migrate.ts
-```
+4. Run `pnpm drizzle-kit generate:mysql && pnpm pnpm tsx src/database/migrate.ts` to setup the database.
+5. Run `pnpm dev` and open `http://localhost:3000`.

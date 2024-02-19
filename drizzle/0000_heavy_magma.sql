@@ -20,7 +20,8 @@ CREATE TABLE `messages` (
 	`id` serial AUTO_INCREMENT NOT NULL,
 	`user_id` bigint unsigned NOT NULL,
 	`created_at` timestamp DEFAULT (now()),
-	`message` varchar(256) NOT NULL,
+	`text` varchar(256) NOT NULL,
+	`reply` text DEFAULT (''),
 	CONSTRAINT `messages_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -52,13 +53,6 @@ CREATE TABLE `products_resources` (
 	`hours` int unsigned NOT NULL DEFAULT 0
 );
 --> statement-breakpoint
-CREATE TABLE `replies` (
-	`id` bigint unsigned NOT NULL,
-	`created_at` timestamp DEFAULT (now()),
-	`text` text NOT NULL,
-	CONSTRAINT `replies_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
 CREATE TABLE `resources` (
 	`id` serial AUTO_INCREMENT NOT NULL,
 	`name` varchar(256) NOT NULL,
@@ -83,5 +77,4 @@ ALTER TABLE `products_employees` ADD CONSTRAINT `products_employees_employee_id_
 ALTER TABLE `products_equipments` ADD CONSTRAINT `products_equipments_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_equipments` ADD CONSTRAINT `products_equipments_equipment_id_equipments_id_fk` FOREIGN KEY (`equipment_id`) REFERENCES `equipments`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_resource_id_resources_id_fk` FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `replies` ADD CONSTRAINT `replies_id_messages_id_fk` FOREIGN KEY (`id`) REFERENCES `messages`(`id`) ON DELETE cascade ON UPDATE no action;
+ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_resource_id_resources_id_fk` FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE restrict ON UPDATE no action;

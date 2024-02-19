@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "5ae0bfc3-cd2d-4d67-aa99-0d649dee296f",
+  "id": "d474e7b9-65d3-40ad-8b0c-252200dd2bed",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -131,12 +131,20 @@
           "autoincrement": false,
           "default": "(now())"
         },
-        "message": {
-          "name": "message",
+        "text": {
+          "name": "text",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "reply": {
+          "name": "reply",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('')"
         }
       },
       "indexes": {},
@@ -398,58 +406,6 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "replies": {
-      "name": "replies",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
-        },
-        "text": {
-          "name": "text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "replies_id_messages_id_fk": {
-          "name": "replies_id_messages_id_fk",
-          "tableFrom": "replies",
-          "tableTo": "messages",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "replies_id": {
-          "name": "replies_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
       "uniqueConstraints": {}
     },
     "resources": {
