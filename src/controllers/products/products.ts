@@ -9,12 +9,14 @@ import { paramsValidator } from "~/shared/validators";
 
 import employees from "./employees";
 import equipments from "./equipments";
+import resources from "./resources";
 
 const app = new Hono();
 
 // Relation routes.
 app.route("/employees", employees);
 app.route("/equipments", equipments);
+app.route("/resources", resources);
 
 /**
  * Wether the product exists.

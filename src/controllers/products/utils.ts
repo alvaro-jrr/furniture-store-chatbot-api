@@ -12,16 +12,21 @@ export async function updateProductionCost({
 	productId,
 	productEmployeeId,
 	productEquipmentId,
+	productResourceId,
 }: {
 	productId?: number;
 	productEmployeeId?: number;
 	productEquipmentId?: number;
+	productResourceId?: number;
 }) {
 	// Verify that only an id is set.
 	if (
-		[productId, productEmployeeId, productEquipmentId].filter(
-			(id) => id !== undefined,
-		).length === 1
+		[
+			productId,
+			productEmployeeId,
+			productEquipmentId,
+			productResourceId,
+		].filter((id) => id !== undefined).length === 1
 	) {
 		throw new Error("Only set an id for the product query");
 	}
@@ -66,6 +71,14 @@ export async function updateProductionCost({
 			},
 			resources: {
 				columns: { quantity: true },
+				where:
+					productResourceId === undefined
+						? undefined
+						: (productsResources, { eq }) =>
+								eq(
+									productsResources.resourceId,
+									productResourceId,
+								),
 				with: {
 					resource: {
 						columns: { unitPrice: true },

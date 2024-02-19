@@ -12,7 +12,7 @@ const app = new Hono();
 /**
  * Wether the resource exists.
  */
-async function resourceExists(id: number) {
+export async function resourceExists(id: number) {
 	return (
 		(await db.query.resources.findFirst({
 			where: (resources, { eq }) => eq(resources.id, id),
