@@ -48,8 +48,6 @@ app.post(
 		const nlp = await getNlp();
 		const answer = await nlp.process("es", message.text);
 
-		console.log(answer);
-
 		// Store answer.
 		const [{ insertId: answerId }] = await db.insert(messages).values({
 			userId,
