@@ -18,10 +18,10 @@ CREATE TABLE `equipments` (
 --> statement-breakpoint
 CREATE TABLE `messages` (
 	`id` serial AUTO_INCREMENT NOT NULL,
-	`user_id` bigint unsigned NOT NULL,
+	`room_id` bigint unsigned NOT NULL,
 	`created_at` timestamp DEFAULT (now()),
-	`text` varchar(256) NOT NULL,
-	`reply` text DEFAULT (''),
+	`text` text NOT NULL,
+	`type` enum('USER','AI') NOT NULL,
 	CONSTRAINT `messages_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
@@ -70,6 +70,12 @@ CREATE TABLE `resources` (
 	CONSTRAINT `resources_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `rooms` (
+	`id` serial AUTO_INCREMENT NOT NULL,
+	`user_id` bigint unsigned NOT NULL,
+	CONSTRAINT `rooms_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` serial AUTO_INCREMENT NOT NULL,
 	`full_name` varchar(256) NOT NULL,
@@ -80,10 +86,11 @@ CREATE TABLE `users` (
 	CONSTRAINT `users_email_unique` UNIQUE(`email`)
 );
 --> statement-breakpoint
-ALTER TABLE `messages` ADD CONSTRAINT `messages_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `messages` ADD CONSTRAINT `messages_room_id_rooms_id_fk` FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_employees` ADD CONSTRAINT `products_employees_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_employees` ADD CONSTRAINT `products_employees_employee_id_employees_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employees`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_equipments` ADD CONSTRAINT `products_equipments_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_equipments` ADD CONSTRAINT `products_equipments_equipment_id_equipments_id_fk` FOREIGN KEY (`equipment_id`) REFERENCES `equipments`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_resource_id_resources_id_fk` FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE restrict ON UPDATE no action;
+ALTER TABLE `products_resources` ADD CONSTRAINT `products_resources_resource_id_resources_id_fk` FOREIGN KEY (`resource_id`) REFERENCES `resources`(`id`) ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `rooms` ADD CONSTRAINT `rooms_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE cascade ON UPDATE no action;

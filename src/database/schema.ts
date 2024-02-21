@@ -29,8 +29,11 @@ export const users = mysqlTable("users", {
 /**
  * The user relations.
  */
-export const usersRelations = relations(users, ({ many }) => ({
-	messages: many(messages),
+export const usersRelations = relations(users, ({ one }) => ({
+	room: one(rooms, {
+		fields: [users.id],
+		references: [rooms.userId],
+	}),
 }));
 
 export const insertUserSchema = createInsertSchema(users, {
@@ -42,22 +45,55 @@ export const insertUserSchema = createInsertSchema(users, {
 export const selectUserSchema = createSelectSchema(users);
 
 /**
- * The messages sent by the user.
+ * The rooms where the messages are sent.
  */
-export const messages = mysqlTable("messages", {
+export const rooms = mysqlTable("rooms", {
 	id: serial("id").primaryKey(),
 	userId: bigint("user_id", { unsigned: true, mode: "number" })
 		.references(() => users.id, {
 			onDelete: "cascade",
 		})
 		.notNull(),
-	createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
-	text: varchar("text", { length: 256 }).notNull(),
-	reply: text("reply").default(""),
 });
 
+/**
+ * The rooms relations.
+ */
+export const roomsRelations = relations(rooms, ({ one, many }) => ({
+	user: one(users, {
+		fields: [rooms.userId],
+		references: [users.id],
+	}),
+	messages: many(messages),
+}));
+
+/**
+ * The messages sent by the user.
+ */
+export const messages = mysqlTable("messages", {
+	id: serial("id").primaryKey(),
+	roomId: bigint("room_id", { unsigned: true, mode: "number" })
+		.references(() => rooms.id, {
+			onDelete: "cascade",
+		})
+		.notNull(),
+	createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+	text: text("text").notNull(),
+	type: mysqlEnum("type", ["USER", "AI"]).notNull(),
+});
+
+/**
+ * The message relations.
+ */
+export const messageRelations = relations(messages, ({ one }) => ({
+	room: one(rooms, {
+		fields: [messages.roomId],
+		references: [rooms.id],
+	}),
+}));
+
 export const insertMessageSchema = createInsertSchema(messages, {
-	reply: (schema) => schema.reply.min(1),
+	text: (schema) => schema.text.min(1),
 });
 
 export const selectMessageSchema = createSelectSchema(messages);

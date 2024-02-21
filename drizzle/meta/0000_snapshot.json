@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "22d92b45-34f4-43e8-a837-eecb18fde0d1",
+  "id": "a32a5181-db83-4548-a32c-638134ebd974",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "employees": {
@@ -116,8 +116,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "user_id": {
-          "name": "user_id",
+        "room_id": {
+          "name": "room_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -133,28 +133,27 @@
         },
         "text": {
           "name": "text",
-          "type": "varchar(256)",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "reply": {
-          "name": "reply",
-          "type": "text",
+        "type": {
+          "name": "type",
+          "type": "enum('USER','AI')",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "('')"
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "messages_user_id_users_id_fk": {
-          "name": "messages_user_id_users_id_fk",
+        "messages_room_id_rooms_id_fk": {
+          "name": "messages_room_id_rooms_id_fk",
           "tableFrom": "messages",
-          "tableTo": "users",
+          "tableTo": "rooms",
           "columnsFrom": [
-            "user_id"
+            "room_id"
           ],
           "columnsTo": [
             "id"
@@ -509,6 +508,50 @@
       "compositePrimaryKeys": {
         "resources_id": {
           "name": "resources_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "rooms": {
+      "name": "rooms",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "rooms_user_id_users_id_fk": {
+          "name": "rooms_user_id_users_id_fk",
+          "tableFrom": "rooms",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "rooms_id": {
+          "name": "rooms_id",
           "columns": [
             "id"
           ]
