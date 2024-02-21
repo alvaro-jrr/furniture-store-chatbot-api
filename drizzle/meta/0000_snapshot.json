@@ -1,9 +1,73 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "3303ebba-0cfe-4203-ab2d-66bb62d858ca",
+  "id": "ae13a009-a402-466f-b30f-5f803de9be9f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "clients": {
+      "name": "clients",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "clients_id": {
+          "name": "clients_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "clients_email_unique": {
+          "name": "clients_email_unique",
+          "columns": [
+            "email"
+          ]
+        },
+        "clients_phone_number_unique": {
+          "name": "clients_phone_number_unique",
+          "columns": [
+            "phone_number"
+          ]
+        }
+      }
+    },
     "employees": {
       "name": "employees",
       "columns": {
@@ -31,6 +95,20 @@
         "role": {
           "name": "role",
           "type": "enum('WORKER','ADMINISTRATIVE')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "labor_description": {
+          "name": "labor_description",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hourly_rate": {
+          "name": "hourly_rate",
+          "type": "decimal(10,1)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -76,7 +154,7 @@
           "name": "hourly_rate",
           "type": "decimal(10,1)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
@@ -85,64 +163,6 @@
       "compositePrimaryKeys": {
         "equipments_id": {
           "name": "equipments_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "labors": {
-      "name": "labors",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "employee_id": {
-          "name": "employee_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "hourly_rate": {
-          "name": "hourly_rate",
-          "type": "decimal(10,1)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "labors_employee_id_employees_id_fk": {
-          "name": "labors_employee_id_employees_id_fk",
-          "tableFrom": "labors",
-          "tableTo": "employees",
-          "columnsFrom": [
-            "employee_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "labors_id": {
-          "name": "labors_id",
           "columns": [
             "id"
           ]
@@ -175,9 +195,16 @@
           "autoincrement": false,
           "default": "(now())"
         },
-        "message": {
-          "name": "message",
-          "type": "varchar(256)",
+        "text": {
+          "name": "text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "enum('USER','AI')",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -270,9 +297,95 @@
       },
       "uniqueConstraints": {}
     },
+    "products_employees": {
+      "name": "products_employees",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "employee_id": {
+          "name": "employee_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hours": {
+          "name": "hours",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "products_employees_product_id_products_id_fk": {
+          "name": "products_employees_product_id_products_id_fk",
+          "tableFrom": "products_employees",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "products_employees_employee_id_employees_id_fk": {
+          "name": "products_employees_employee_id_employees_id_fk",
+          "tableFrom": "products_employees",
+          "tableTo": "employees",
+          "columnsFrom": [
+            "employee_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "products_employees_id": {
+          "name": "products_employees_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_employee_unique": {
+          "name": "product_employee_unique",
+          "columns": [
+            "product_id",
+            "employee_id"
+          ]
+        }
+      }
+    },
     "products_equipments": {
       "name": "products_equipments",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
         "product_id": {
           "name": "product_id",
           "type": "bigint unsigned",
@@ -292,8 +405,7 @@
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -325,70 +437,34 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "products_labors": {
-      "name": "products_labors",
-      "columns": {
-        "product_id": {
-          "name": "product_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "labor_id": {
-          "name": "labor_id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "hours": {
-          "name": "hours",
-          "type": "int unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
+      "compositePrimaryKeys": {
+        "products_equipments_id": {
+          "name": "products_equipments_id",
+          "columns": [
+            "id"
+          ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {
-        "products_labors_product_id_products_id_fk": {
-          "name": "products_labors_product_id_products_id_fk",
-          "tableFrom": "products_labors",
-          "tableTo": "products",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "products_labors_labor_id_labors_id_fk": {
-          "name": "products_labors_labor_id_labors_id_fk",
-          "tableFrom": "products_labors",
-          "tableTo": "labors",
-          "columnsFrom": [
-            "labor_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "no action"
+      "uniqueConstraints": {
+        "product_equipment_unique": {
+          "name": "product_equipment_unique",
+          "columns": [
+            "product_id",
+            "equipment_id"
+          ]
         }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      }
     },
     "products_resources": {
       "name": "products_resources",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
         "product_id": {
           "name": "product_id",
           "type": "bigint unsigned",
@@ -403,13 +479,12 @@
           "notNull": true,
           "autoincrement": false
         },
-        "hours": {
-          "name": "hours",
+        "quantity": {
+          "name": "quantity",
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -441,30 +516,51 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "compositePrimaryKeys": {
+        "products_resources_id": {
+          "name": "products_resources_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_resource_unique": {
+          "name": "product_resource_unique",
+          "columns": [
+            "product_id",
+            "resource_id"
+          ]
+        }
+      }
     },
-    "replies": {
-      "name": "replies",
+    "products_sales": {
+      "name": "products_sales",
       "columns": {
         "id": {
           "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "product_id": {
+          "name": "product_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "sales_id": {
+          "name": "sales_id",
+          "type": "bigint unsigned",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "(now())"
+          "notNull": true,
+          "autoincrement": false
         },
-        "text": {
-          "name": "text",
-          "type": "text",
+        "quantity": {
+          "name": "quantity",
+          "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -472,29 +568,50 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "replies_id_messages_id_fk": {
-          "name": "replies_id_messages_id_fk",
-          "tableFrom": "replies",
-          "tableTo": "messages",
+        "products_sales_product_id_products_id_fk": {
+          "name": "products_sales_product_id_products_id_fk",
+          "tableFrom": "products_sales",
+          "tableTo": "products",
           "columnsFrom": [
-            "id"
+            "product_id"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "products_sales_sales_id_sales_id_fk": {
+          "name": "products_sales_sales_id_sales_id_fk",
+          "tableFrom": "products_sales",
+          "tableTo": "sales",
+          "columnsFrom": [
+            "sales_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "replies_id": {
-          "name": "replies_id",
+        "products_sales_id": {
+          "name": "products_sales_id",
           "columns": [
             "id"
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "product_sale_unique": {
+          "name": "product_sale_unique",
+          "columns": [
+            "product_id",
+            "sales_id"
+          ]
+        }
+      }
     },
     "resources": {
       "name": "resources",
@@ -534,6 +651,65 @@
       "compositePrimaryKeys": {
         "resources_id": {
           "name": "resources_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "sales": {
+      "name": "sales",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "total": {
+          "name": "total",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sales_client_id_clients_id_fk": {
+          "name": "sales_client_id_clients_id_fk",
+          "tableFrom": "sales",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "sales_id": {
+          "name": "sales_id",
           "columns": [
             "id"
           ]

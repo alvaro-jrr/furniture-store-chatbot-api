@@ -1,7 +1,9 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
-import { envSchema } from "../shared/schema";
+
+import { envSchema } from "~/shared/schema";
+
 import * as schema from "./schema";
 
 const env = envSchema.parse(process.env);

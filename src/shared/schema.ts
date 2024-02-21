@@ -14,3 +14,7 @@ export const jwtPayloadSchema = z.object({
 	exp: z.number(),
 	userId: z.number(),
 });
+
+export const paramSchema = z.object({
+	id: z.coerce.number().nonnegative(),
+});
