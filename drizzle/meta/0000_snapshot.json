@@ -1,9 +1,73 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "a32a5181-db83-4548-a32c-638134ebd974",
+  "id": "ae13a009-a402-466f-b30f-5f803de9be9f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "clients": {
+      "name": "clients",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "clients_id": {
+          "name": "clients_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "clients_email_unique": {
+          "name": "clients_email_unique",
+          "columns": [
+            "email"
+          ]
+        },
+        "clients_phone_number_unique": {
+          "name": "clients_phone_number_unique",
+          "columns": [
+            "phone_number"
+          ]
+        }
+      }
+    },
     "employees": {
       "name": "employees",
       "columns": {
@@ -116,8 +180,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "room_id": {
-          "name": "room_id",
+        "user_id": {
+          "name": "user_id",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -148,12 +212,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "messages_room_id_rooms_id_fk": {
-          "name": "messages_room_id_rooms_id_fk",
+        "messages_user_id_users_id_fk": {
+          "name": "messages_user_id_users_id_fk",
           "tableFrom": "messages",
-          "tableTo": "rooms",
+          "tableTo": "users",
           "columnsFrom": [
-            "room_id"
+            "user_id"
           ],
           "columnsTo": [
             "id"
@@ -415,8 +479,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "hours": {
-          "name": "hours",
+        "quantity": {
+          "name": "quantity",
           "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -470,6 +534,85 @@
         }
       }
     },
+    "products_sales": {
+      "name": "products_sales",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sales_id": {
+          "name": "sales_id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "products_sales_product_id_products_id_fk": {
+          "name": "products_sales_product_id_products_id_fk",
+          "tableFrom": "products_sales",
+          "tableTo": "products",
+          "columnsFrom": [
+            "product_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "products_sales_sales_id_sales_id_fk": {
+          "name": "products_sales_sales_id_sales_id_fk",
+          "tableFrom": "products_sales",
+          "tableTo": "sales",
+          "columnsFrom": [
+            "sales_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "products_sales_id": {
+          "name": "products_sales_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "product_sale_unique": {
+          "name": "product_sale_unique",
+          "columns": [
+            "product_id",
+            "sales_id"
+          ]
+        }
+      }
+    },
     "resources": {
       "name": "resources",
       "columns": {
@@ -515,8 +658,8 @@
       },
       "uniqueConstraints": {}
     },
-    "rooms": {
-      "name": "rooms",
+    "sales": {
+      "name": "sales",
       "columns": {
         "id": {
           "name": "id",
@@ -525,9 +668,24 @@
           "notNull": true,
           "autoincrement": true
         },
-        "user_id": {
-          "name": "user_id",
+        "client_id": {
+          "name": "client_id",
           "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "total": {
+          "name": "total",
+          "type": "decimal(10,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -535,23 +693,23 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "rooms_user_id_users_id_fk": {
-          "name": "rooms_user_id_users_id_fk",
-          "tableFrom": "rooms",
-          "tableTo": "users",
+        "sales_client_id_clients_id_fk": {
+          "name": "sales_client_id_clients_id_fk",
+          "tableFrom": "sales",
+          "tableTo": "clients",
           "columnsFrom": [
-            "user_id"
+            "client_id"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "restrict",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "rooms_id": {
-          "name": "rooms_id",
+        "sales_id": {
+          "name": "sales_id",
           "columns": [
             "id"
           ]
