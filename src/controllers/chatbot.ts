@@ -74,7 +74,7 @@ app.post(
 /**
  * Get all the messages.
  */
-app.get("/", async (c) => {
+app.get("/messages", async (c) => {
 	const userId = (await getJwt(c))?.userId;
 
 	if (userId === undefined) {
@@ -89,6 +89,18 @@ app.get("/", async (c) => {
 		data: await db.query.messages.findMany({
 			where: (messages, { eq }) => eq(messages.userId, userId),
 		}),
+	});
+});
+
+/**
+ * Forces the manager training.
+ */
+app.post("/train", async (c) => {
+	await getNlp({ forceTraining: true });
+
+	return response(c, {
+		status: 200,
+		message: "The manager has been trained",
 	});
 });
 

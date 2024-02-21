@@ -7,10 +7,10 @@ import { HTTPException } from "hono/http-exception";
 import { jwt } from "hono/jwt";
 import { logger } from "hono/logger";
 
+import chatbot from "./controllers/chatbot";
 import clients from "./controllers/clients";
 import employees from "./controllers/employees";
 import equipments from "./controllers/equipments";
-import messages from "./controllers/messages";
 import products from "./controllers/products";
 import resources from "./controllers/resources";
 import users from "./controllers/users";
@@ -32,7 +32,7 @@ app.on(
 		"/products/*",
 		"/resources/*",
 		"/clients/*",
-		"/messages/*",
+		"/chatbot/*",
 	],
 	jwt({ secret: getEnv().JWT_SECRET }),
 );
@@ -46,7 +46,7 @@ app.route("/equipments", equipments);
 app.route("/products", products);
 app.route("/resources", resources);
 app.route("/clients", clients);
-app.route("/messages", messages);
+app.route("/chatbot", chatbot);
 
 app.onError((err, c) => {
 	return response(c, {

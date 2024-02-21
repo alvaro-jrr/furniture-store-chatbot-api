@@ -20,8 +20,8 @@ export interface DocumentAnswer<T> {
  *
  * @param manager - The manager to train.
  */
-async function trainNlp(manager: NlpManager) {
-	if (fs.existsSync("./model.nlp")) {
+export async function trainNlp(manager: NlpManager, forceTraining = false) {
+	if (!forceTraining && fs.existsSync("./model.nlp")) {
 		manager.load("./model.nlp");
 		return;
 	}
@@ -35,8 +35,6 @@ async function trainNlp(manager: NlpManager) {
 		},
 	);
 
-	await manager.train();
-
 	// Add answers.
 	[employeesAnswers, productsAnswers, clientsAnswers].forEach((answers) => {
 		answers.forEach((answer) => {
@@ -44,11 +42,18 @@ async function trainNlp(manager: NlpManager) {
 		});
 	});
 
+	await manager.train();
 	manager.save();
 }
 
-export async function getNlp() {
+export async function getNlp(
+	{
+		forceTraining,
+	}: {
+		forceTraining?: boolean;
+	} = { forceTraining: false },
+) {
 	const nlp = new NlpManager({ languages: ["es"], forceNER: true });
-	await trainNlp(nlp);
+	await trainNlp(nlp, forceTraining);
 	return nlp;
 }

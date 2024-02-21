@@ -723,22 +723,22 @@
       "es": {
         "employees.count": [
           {
-            "answer": "Hay 0 empleados"
+            "answer": "Hay 3 empleados"
           }
         ],
         "employees.list": [
           {
-            "answer": ""
+            "answer": "- Gunther (+584121152671)\n- Joselyn Espejo (+584121152671)\n- Yesenia Larenas (+584121152671)"
           }
         ],
         "employees.worker.count": [
           {
-            "answer": "Hay 0 obreros"
+            "answer": "Hay 2 obreros"
           }
         ],
         "employees.admin.count": [
           {
-            "answer": "Hay 0 administrativos"
+            "answer": "Hay 1 administrativo"
           }
         ],
         "products.count": [
