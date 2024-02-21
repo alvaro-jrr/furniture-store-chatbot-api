@@ -1,0 +1,789 @@
+{
+  "settings": {
+    "languages": [
+      "es"
+    ],
+    "forceNER": true,
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "autoSave": true,
+    "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
+    "calculateSentiment": true
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
+      "es"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "es": {
+        "settings": {
+          "locale": "es",
+          "trainByDomain": false,
+          "tag": "domain-manager-es",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "contrat,cuant,emple,hab": {
+            "intent": "employees.count",
+            "domain": "default"
+          },
+          "cuant,emple,hab": {
+            "intent": "employees.count",
+            "domain": "default"
+          },
+          "cual,el,emple,ser": {
+            "intent": "employees.list",
+            "domain": "default"
+          },
+          "cuant,hab,obrer": {
+            "intent": "employees.worker.count",
+            "domain": "default"
+          },
+          "administr,cuant,hab": {
+            "intent": "employees.admin.count",
+            "domain": "default"
+          },
+          "cuant,hab,product": {
+            "intent": "products.count",
+            "domain": "default"
+          },
+          "cual,dispon,hab,product": {
+            "intent": "products.in_stock_list",
+            "domain": "default"
+          },
+          "cual,dispon,estar,no,product": {
+            "intent": "products.out_stock_list",
+            "domain": "default"
+          },
+          "cuant,dispon,hab,product": {
+            "intent": "products.in_stock",
+            "domain": "default"
+          },
+          "cuant,en,hab,product,stock": {
+            "intent": "products.in_stock",
+            "domain": "default"
+          },
+          "cuant,dispon,hab,no,product": {
+            "intent": "products.out_stock",
+            "domain": "default"
+          },
+          "cuant,en,hab,no,product,stock": {
+            "intent": "products.out_stock",
+            "domain": "default"
+          },
+          "client,cuant,hab,registr": {
+            "intent": "clients.count",
+            "domain": "default"
+          },
+          "client,cual,hab,registr": {
+            "intent": "clients.list",
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "employees.count": "default",
+          "employees.list": "default",
+          "employees.worker.count": "default",
+          "employees.admin.count": "default",
+          "products.count": "default",
+          "products.in_stock_list": "default",
+          "products.out_stock_list": "default",
+          "products.in_stock": "default",
+          "products.out_stock": "default",
+          "clients.count": "default",
+          "clients.list": "default"
+        },
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos empleados hay contratados?",
+            "intent": "employees.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos empleados hay?",
+            "intent": "employees.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuales son los empleados?",
+            "intent": "employees.list"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos obreros hay?",
+            "intent": "employees.worker.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos administrativos hay?",
+            "intent": "employees.admin.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos productos hay?",
+            "intent": "products.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuales productos hay disponibles?",
+            "intent": "products.in_stock_list"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuales productos no estan disponibles?",
+            "intent": "products.out_stock_list"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos productos hay disponibles?",
+            "intent": "products.in_stock"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos productos hay en stock?",
+            "intent": "products.in_stock"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos productos no hay disponibles?",
+            "intent": "products.out_stock"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos productos no hay en stock?",
+            "intent": "products.out_stock"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuantos clientes hay registrados?",
+            "intent": "clients.count"
+          },
+          {
+            "domain": "default",
+            "utterance": "¿Cuales clientes hay registrados?",
+            "intent": "clients.list"
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "es",
+              "tag": "nlu-es",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "cuant": 1,
+              "emple": 1,
+              "hab": 1,
+              "contrat": 1,
+              "cual": 1,
+              "ser": 1,
+              "el": 1,
+              "obrer": 1,
+              "administr": 1,
+              "product": 1,
+              "dispon": 1,
+              "no": 1,
+              "estar": 1,
+              "en": 1,
+              "stock": 1,
+              "client": 1,
+              "registr": 1
+            },
+            "intents": {
+              "employees.count": 1,
+              "employees.list": 1,
+              "employees.worker.count": 1,
+              "employees.admin.count": 1,
+              "products.count": 1,
+              "products.in_stock_list": 1,
+              "products.out_stock_list": 1,
+              "products.in_stock": 1,
+              "products.out_stock": 1,
+              "clients.count": 1,
+              "clients.list": 1
+            },
+            "intentFeatures": {
+              "employees.count": {
+                "cuant": 1,
+                "emple": 1,
+                "hab": 1,
+                "contrat": 1
+              },
+              "employees.list": {
+                "cual": 1,
+                "ser": 1,
+                "el": 1,
+                "emple": 1
+              },
+              "employees.worker.count": {
+                "cuant": 1,
+                "obrer": 1,
+                "hab": 1
+              },
+              "employees.admin.count": {
+                "cuant": 1,
+                "administr": 1,
+                "hab": 1
+              },
+              "products.count": {
+                "cuant": 1,
+                "product": 1,
+                "hab": 1
+              },
+              "products.in_stock_list": {
+                "cual": 1,
+                "product": 1,
+                "hab": 1,
+                "dispon": 1
+              },
+              "products.out_stock_list": {
+                "cual": 1,
+                "product": 1,
+                "no": 1,
+                "estar": 1,
+                "dispon": 1
+              },
+              "products.in_stock": {
+                "cuant": 1,
+                "product": 1,
+                "hab": 1,
+                "dispon": 1,
+                "en": 1,
+                "stock": 1
+              },
+              "products.out_stock": {
+                "cuant": 1,
+                "product": 1,
+                "no": 1,
+                "hab": 1,
+                "dispon": 1,
+                "en": 1,
+                "stock": 1
+              },
+              "clients.count": {
+                "cuant": 1,
+                "client": 1,
+                "hab": 1,
+                "registr": 1
+              },
+              "clients.list": {
+                "cual": 1,
+                "client": 1,
+                "hab": 1,
+                "registr": 1
+              }
+            },
+            "featuresToIntent": {
+              "cuant": [
+                "employees.count",
+                "employees.worker.count",
+                "employees.admin.count",
+                "products.count",
+                "products.in_stock",
+                "products.out_stock",
+                "clients.count"
+              ],
+              "emple": [
+                "employees.count",
+                "employees.list"
+              ],
+              "hab": [
+                "employees.count",
+                "employees.worker.count",
+                "employees.admin.count",
+                "products.count",
+                "products.in_stock_list",
+                "products.in_stock",
+                "products.out_stock",
+                "clients.count",
+                "clients.list"
+              ],
+              "contrat": [
+                "employees.count"
+              ],
+              "cual": [
+                "employees.list",
+                "products.in_stock_list",
+                "products.out_stock_list",
+                "clients.list"
+              ],
+              "ser": [
+                "employees.list"
+              ],
+              "el": [
+                "employees.list"
+              ],
+              "obrer": [
+                "employees.worker.count"
+              ],
+              "administr": [
+                "employees.admin.count"
+              ],
+              "product": [
+                "products.count",
+                "products.in_stock_list",
+                "products.out_stock_list",
+                "products.in_stock",
+                "products.out_stock"
+              ],
+              "dispon": [
+                "products.in_stock_list",
+                "products.out_stock_list",
+                "products.in_stock",
+                "products.out_stock"
+              ],
+              "no": [
+                "products.out_stock_list",
+                "products.out_stock"
+              ],
+              "estar": [
+                "products.out_stock_list"
+              ],
+              "en": [
+                "products.in_stock",
+                "products.out_stock"
+              ],
+              "stock": [
+                "products.in_stock",
+                "products.out_stock"
+              ],
+              "client": [
+                "clients.count",
+                "clients.list"
+              ],
+              "registr": [
+                "clients.count",
+                "clients.list"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "es",
+                "tag": "nlu-es",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "cuant",
+                "emple",
+                "hab",
+                "contrat",
+                "cual",
+                "ser",
+                "el",
+                "obrer",
+                "administr",
+                "product",
+                "dispon",
+                "no",
+                "estar",
+                "en",
+                "stock",
+                "client",
+                "registr"
+              ],
+              "intents": [
+                "employees.count",
+                "employees.list",
+                "employees.worker.count",
+                "employees.admin.count",
+                "products.count",
+                "products.in_stock_list",
+                "products.out_stock_list",
+                "products.in_stock",
+                "products.out_stock",
+                "clients.count",
+                "clients.list"
+              ],
+              "perceptrons": [
+                [
+                  2.1245570182800293,
+                  10.670904159545898,
+                  1.9699584245681763,
+                  0.29498955607414246,
+                  -3.4363746643066406,
+                  -3.281776189804077,
+                  -3.281776189804077,
+                  -3.419137954711914,
+                  -3.423553466796875,
+                  -3.4228105545043945,
+                  -0.7951691746711731,
+                  -0.2193099558353424,
+                  0,
+                  -0.4126494824886322,
+                  -0.4126494824886322,
+                  -1.7161471843719482,
+                  -1.7161471843719482,
+                  -0.6570324025051748
+                ],
+                [
+                  -1.326034426689148,
+                  2.9211130142211914,
+                  -2.2158467769622803,
+                  -0.4444671869277954,
+                  2.566777467727661,
+                  4.0887885093688965,
+                  4.0887885093688965,
+                  -0.04443603381514549,
+                  -0.036458488553762436,
+                  -0.9939165711402893,
+                  -0.9577890038490295,
+                  -0.6255845427513123,
+                  -0.6255845427513123,
+                  -0.0003260495141148567,
+                  -0.0003260495141148567,
+                  -0.5559051036834717,
+                  -0.5559051036834717,
+                  0.6202467702396379
+                ],
+                [
+                  1.290596604347229,
+                  -2.93113374710083,
+                  1.0951447486877441,
+                  -0.877899169921875,
+                  -0.1864621490240097,
+                  0,
+                  0,
+                  11.352954864501953,
+                  -2.931572675704956,
+                  -2.931734800338745,
+                  -0.7370861768722534,
+                  -0.23150435090065002,
+                  -0.0016379366861656308,
+                  -0.40483716130256653,
+                  -0.40483716130256653,
+                  -1.4663461446762085,
+                  -1.4663461446762085,
+                  0.546076094139832
+                ],
+                [
+                  1.3050951957702637,
+                  -2.9308464527130127,
+                  1.0876168012619019,
+                  -0.9447047710418701,
+                  -0.215267613530159,
+                  0,
+                  0,
+                  -2.930187940597534,
+                  11.353853225708008,
+                  -2.9308865070343018,
+                  -0.8326963186264038,
+                  -0.3444938659667969,
+                  -0.005833301693201065,
+                  -0.5021526217460632,
+                  -0.5021526217460632,
+                  -1.4837629795074463,
+                  -1.4837629795074463,
+                  0.5382695090386228
+                ],
+                [
+                  1.6745012998580933,
+                  -2.8606200218200684,
+                  0.8671015501022339,
+                  -0.6260942220687866,
+                  -0.9280692934989929,
+                  0,
+                  0,
+                  -2.8454620838165283,
+                  -2.8289175033569336,
+                  10.749127388000488,
+                  -13.400628089904785,
+                  -1.8843187093734741,
+                  -0.08780255168676376,
+                  -6.7895355224609375,
+                  -6.7895355224609375,
+                  -1.452179193496704,
+                  -1.452179193496704,
+                  0.37037799260063325
+                ],
+                [
+                  -8.451363563537598,
+                  -1.4634298086166382,
+                  3.6773297786712646,
+                  -0.000618558085989207,
+                  5.7475104331970215,
+                  -1.4622738361358643,
+                  -1.4622738361358643,
+                  0,
+                  0,
+                  2.7891454696655273,
+                  3.366001605987549,
+                  -5.6193623542785645,
+                  -4.919473648071289,
+                  -0.3628057837486267,
+                  -0.3628057837486267,
+                  -4.0298051834106445,
+                  -4.0298051834106445,
+                  -1.3536070893710264
+                ],
+                [
+                  -2.0525097846984863,
+                  -0.7973203659057617,
+                  -4.674149036407471,
+                  0,
+                  2.204526901245117,
+                  -0.7973203659057617,
+                  -0.7973203659057617,
+                  0,
+                  0,
+                  1.053123950958252,
+                  1.3459060192108154,
+                  3.9936413764953613,
+                  5.617920398712158,
+                  -0.24938960373401642,
+                  -0.24938960373401642,
+                  -0.0958913266658783,
+                  -0.0958913266658783,
+                  0.07059410899075848
+                ],
+                [
+                  5.019662857055664,
+                  -1.3748416900634766,
+                  -3.603102684020996,
+                  -0.5483806133270264,
+                  -8.625027656555176,
+                  0,
+                  0,
+                  -1.229210376739502,
+                  -1.159011721611023,
+                  1.0186467170715332,
+                  13.254911422729492,
+                  -13.979652404785156,
+                  -0.009195427410304546,
+                  6.735552787780762,
+                  6.735552787780762,
+                  -0.8517680168151855,
+                  -0.8517680168151855,
+                  -1.8080507937959747
+                ],
+                [
+                  1.7712087631225586,
+                  -0.9479846358299255,
+                  0.9653238654136658,
+                  -0.3887653946876526,
+                  -6.17360258102417,
+                  -0.0012261387892067432,
+                  -0.0012261387892067432,
+                  -0.665848433971405,
+                  -0.7419716715812683,
+                  -1.3655383586883545,
+                  0.8377025723457336,
+                  14.271722793579102,
+                  -5.365264415740967,
+                  0.41965049505233765,
+                  0.41965049505233765,
+                  -0.5292037129402161,
+                  -0.5292037129402161,
+                  -2.201187888876766
+                ],
+                [
+                  5.87468957901001,
+                  -2.1376028060913086,
+                  -2.4887688159942627,
+                  -0.5264577269554138,
+                  -8.363282203674316,
+                  -0.00009867759217740968,
+                  -0.00009867759217740968,
+                  -2.1374006271362305,
+                  -2.136057138442993,
+                  -2.1339101791381836,
+                  -0.34949424862861633,
+                  -0.05965188890695572,
+                  0,
+                  -0.16365286707878113,
+                  -0.16365286707878113,
+                  6.057591438293457,
+                  6.057591438293457,
+                  -1.2446410265196128
+                ],
+                [
+                  -7.888075351715088,
+                  -2.0966920852661133,
+                  0.4794178009033203,
+                  -0.10716856271028519,
+                  6.375964641571045,
+                  -1.7603598833084106,
+                  -1.7603598833084106,
+                  -0.16523276269435883,
+                  -0.14616255462169647,
+                  -3.104926109313965,
+                  -2.9908835887908936,
+                  -0.19396869838237762,
+                  -0.19396869838237762,
+                  -0.0033064524177461863,
+                  -0.0033064524177461863,
+                  4.087712287902832,
+                  4.087712287902832,
+                  -0.7562713400531393
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "es",
+        "¿Cuantos empleados hay contratados?"
+      ],
+      [
+        "es",
+        "¿Cuantos empleados hay?"
+      ],
+      [
+        "es",
+        "¿Cuales son los empleados?"
+      ],
+      [
+        "es",
+        "¿Cuantos obreros hay?"
+      ],
+      [
+        "es",
+        "¿Cuantos administrativos hay?"
+      ],
+      [
+        "es",
+        "¿Cuantos productos hay?"
+      ],
+      [
+        "es",
+        "¿Cuales productos hay disponibles?"
+      ],
+      [
+        "es",
+        "¿Cuales productos no estan disponibles?"
+      ],
+      [
+        "es",
+        "¿Cuantos productos hay disponibles?"
+      ],
+      [
+        "es",
+        "¿Cuantos productos hay en stock?"
+      ],
+      [
+        "es",
+        "¿Cuantos productos no hay disponibles?"
+      ],
+      [
+        "es",
+        "¿Cuantos productos no hay en stock?"
+      ],
+      [
+        "es",
+        "¿Cuantos clientes hay registrados?"
+      ],
+      [
+        "es",
+        "¿Cuales clientes hay registrados?"
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {}
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {
+      "es": {
+        "employees.count": [
+          {
+            "answer": "Hay 0 empleados"
+          }
+        ],
+        "employees.list": [
+          {
+            "answer": ""
+          }
+        ],
+        "employees.worker.count": [
+          {
+            "answer": "Hay 0 obreros"
+          }
+        ],
+        "employees.admin.count": [
+          {
+            "answer": "Hay 0 administrativos"
+          }
+        ],
+        "products.count": [
+          {
+            "answer": "Hay 0 productos"
+          }
+        ],
+        "products.in_stock_list": [
+          {
+            "answer": ""
+          }
+        ],
+        "products.out_stock_list": [
+          {
+            "answer": ""
+          }
+        ],
+        "products.in_stock": [
+          {
+            "answer": "Hay 0 productos disponibles "
+          }
+        ],
+        "products.out_stock": [
+          {
+            "answer": "Hay 0 productos sin stock "
+          }
+        ],
+        "clients.count": [
+          {
+            "answer": "Hay 0 clientes"
+          }
+        ],
+        "clients.list": [
+          {
+            "answer": ""
+          }
+        ]
+      }
+    }
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {}
+}

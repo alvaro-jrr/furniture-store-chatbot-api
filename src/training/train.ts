@@ -1,5 +1,5 @@
-import { NlpManager } from "@nlpjs/basic";
 import fs from "fs";
+import { NlpManager } from "node-nlp";
 
 import { clientsAnswers, clientsDocuments } from "./categories/clients";
 import { employeesAnswers, employeesDocuments } from "./categories/employees";
@@ -15,6 +15,11 @@ export interface DocumentAnswer<T> {
 	intent: T;
 }
 
+/**
+ * Trains the manager provided.
+ *
+ * @param manager - The manager to train.
+ */
 async function trainNlp(manager: NlpManager) {
 	if (fs.existsSync("./model.nlp")) {
 		manager.load("./model.nlp");
@@ -42,6 +47,8 @@ async function trainNlp(manager: NlpManager) {
 	manager.save();
 }
 
-const nlp = new NlpManager({ languages: ["es"], forceNER: true });
-await trainNlp(nlp);
-export { nlp };
+export async function getNlp() {
+	const nlp = new NlpManager({ languages: ["es"], forceNER: true });
+	await trainNlp(nlp);
+	return nlp;
+}

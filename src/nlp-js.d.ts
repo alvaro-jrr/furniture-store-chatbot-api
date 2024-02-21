@@ -1,4 +1,4 @@
-declare module "@nlpjs/basic" {
+declare module "node-nlp" {
 	export function dockStart(params: { use: string[] }): Dock;
 
 	export interface Dock {

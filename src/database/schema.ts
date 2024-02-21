@@ -29,11 +29,8 @@ export const users = mysqlTable("users", {
 /**
  * The user relations.
  */
-export const usersRelations = relations(users, ({ one }) => ({
-	messages: one(messages, {
-		fields: [users.id],
-		references: [messages.userId],
-	}),
+export const usersRelations = relations(users, ({ many }) => ({
+	messages: many(messages),
 }));
 
 export const insertUserSchema = createInsertSchema(users, {

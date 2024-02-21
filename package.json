@@ -15,6 +15,7 @@
 		"hono": "^4.0.3",
 		"hono-sessions": "^0.3.4",
 		"mysql2": "^3.9.1",
+		"node-nlp": "^4.27.0",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
