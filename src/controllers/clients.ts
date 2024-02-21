@@ -21,7 +21,7 @@ export async function clientExists(id: number) {
 }
 
 /**
- * Validates the JSON of an employee.
+ * Validates the JSON of a client.
  *
  * @param json - The json from the request.
  * @param context - The app context.
