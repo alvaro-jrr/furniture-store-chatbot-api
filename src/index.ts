@@ -7,6 +7,7 @@ import { HTTPException } from "hono/http-exception";
 import { jwt } from "hono/jwt";
 import { logger } from "hono/logger";
 
+import clients from "./controllers/clients";
 import employees from "./controllers/employees";
 import equipments from "./controllers/equipments";
 import products from "./controllers/products";
@@ -24,7 +25,13 @@ app.use("*", cors());
 
 app.on(
 	["GET", "POST", "PUT", "PATCH", "DELETE"],
-	["/employees/*", "/equipments/*", "/products/*", "/resources/*"],
+	[
+		"/employees/*",
+		"/equipments/*",
+		"/products/*",
+		"/resources/*",
+		"/clients/*",
+	],
 	jwt({ secret: getEnv().JWT_SECRET }),
 );
 
@@ -36,6 +43,7 @@ app.route("/employees", employees);
 app.route("/equipments", equipments);
 app.route("/products", products);
 app.route("/resources", resources);
+app.route("/clients", clients);
 
 app.onError((err, c) => {
 	return response(c, {
