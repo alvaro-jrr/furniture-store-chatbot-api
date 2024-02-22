@@ -51,17 +51,32 @@ app.post(
 			role: "USER",
 		});
 
+		const newUser = await db.query.users.findFirst({
+			columns: {
+				id: true,
+				fullName: true,
+				email: true,
+				role: true,
+			},
+			where: (users, { eq }) => eq(users.id, insertId),
+		});
+
+		if (newUser === undefined) {
+			return response(c, {
+				status: 400,
+				message: "User couldn't be created",
+			});
+		}
+
+		// Set the JWT.
+		const token = await setJwt(c, newUser.id);
+
 		return response(c, {
 			status: 200,
-			data: await db.query.users.findFirst({
-				columns: {
-					id: true,
-					fullName: true,
-					email: true,
-					role: true,
-				},
-				where: (users, { eq }) => eq(users.id, insertId),
-			}),
+			data: {
+				...newUser,
+				token,
+			},
 		});
 	},
 );
