@@ -33,6 +33,8 @@ app.on(
 		"/resources/*",
 		"/clients/*",
 		"/chatbot/*",
+		"/users/me",
+		"/users/logout",
 	],
 	jwt({ secret: getEnv().JWT_SECRET }),
 );
