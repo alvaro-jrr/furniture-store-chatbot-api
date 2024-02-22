@@ -99,6 +99,6 @@ declare module "node-nlp" {
 		};
 		actions: unknown[];
 		srcAnswer: string;
-		answer: string;
+		answer?: string;
 	}
 }

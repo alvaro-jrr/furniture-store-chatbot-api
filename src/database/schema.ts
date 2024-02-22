@@ -23,7 +23,7 @@ export const users = mysqlTable("users", {
 	fullName: varchar("full_name", { length: 256 }).notNull(),
 	email: varchar("email", { length: 256 }).unique().notNull(),
 	password: varchar("password", { length: 256 }).notNull(),
-	role: mysqlEnum("role", ["ADMIN", "USER"]).default("USER"),
+	role: mysqlEnum("role", ["ADMIN", "USER"]).notNull(),
 });
 
 /**

@@ -51,7 +51,9 @@ app.post(
 		// Store answer.
 		const [{ insertId: answerId }] = await db.insert(messages).values({
 			userId,
-			text: answer.answer ?? "",
+			text:
+				answer.answer ??
+				"Actualmente no estoy capacitado para darte una respuesta a tu pregunta",
 			type: "AI",
 		});
 
