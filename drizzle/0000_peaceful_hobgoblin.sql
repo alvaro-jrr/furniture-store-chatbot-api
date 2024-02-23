@@ -103,7 +103,7 @@ CREATE TABLE `users` (
 	`full_name` varchar(256) NOT NULL,
 	`email` varchar(256) NOT NULL,
 	`password` varchar(256) NOT NULL,
-	`role` enum('ADMIN','USER') DEFAULT 'USER',
+	`role` enum('ADMIN','USER') NOT NULL,
 	CONSTRAINT `users_id` PRIMARY KEY(`id`),
 	CONSTRAINT `users_email_unique` UNIQUE(`email`)
 );

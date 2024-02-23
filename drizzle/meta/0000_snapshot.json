@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "22ad5e77-9983-4e2d-bfd3-1de31204672b",
+  "id": "70446f6e-6c4a-48ce-871e-a9354b6d9648",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "clients": {
@@ -752,9 +752,8 @@
           "name": "role",
           "type": "enum('ADMIN','USER')",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'USER'"
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},

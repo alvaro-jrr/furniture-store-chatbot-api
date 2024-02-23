@@ -723,47 +723,47 @@
       "es": {
         "employees.count": [
           {
-            "answer": "Hay 3 empleados"
+            "answer": "Hay 19 empleados"
           }
         ],
         "employees.list": [
           {
-            "answer": "- Gunther (+584121152671)\n- Joselyn Espejo (+584121152671)\n- Yesenia Larenas (+584121152671)"
+            "answer": "- John Doe (555-1234)\n- Jane Smith (555-5678)\n- Mike Johnson (555-9012)\n- Sara Davis (555-3456)\n- Chris Wilson (555-7890)\n- Amy Thompson (555-2345)\n- David Brown (555-6789)\n- Jennifer Lee (555-0123)\n- Brian Clark (555-4567)\n- Rachel Green (555-8901)\n- Tom Wilson (555-2345)\n- Emily Davis (555-6789)\n- Michael Johnson (555-0123)\n- Jessica Smith (555-4567)\n- Daniel Brown (555-8901)\n- Olivia Wilson (555-2345)\n- Andrew Thompson (555-6789)\n- Sophia Clark (555-0123)\n- Matthew Green (555-4567)"
           }
         ],
         "employees.worker.count": [
           {
-            "answer": "Hay 2 obreros"
+            "answer": "Hay 19 obreros"
           }
         ],
         "employees.admin.count": [
           {
-            "answer": "Hay 1 administrativo"
+            "answer": "Hay 0 administrativos"
           }
         ],
         "products.count": [
           {
-            "answer": "Hay 0 productos"
+            "answer": "Hay 10 productos"
           }
         ],
         "products.in_stock_list": [
           {
-            "answer": ""
+            "answer": "- Sofa\n- Silla\n- Mesa\n- Cama\n- Estante\n- Cómoda\n- Mueble de TV\n- Mesa de centro\n- Lámpara"
           }
         ],
         "products.out_stock_list": [
           {
-            "answer": ""
+            "answer": "- Armario"
           }
         ],
         "products.in_stock": [
           {
-            "answer": "Hay 0 productos disponibles "
+            "answer": "Hay 9 productos disponibles "
           }
         ],
         "products.out_stock": [
           {
-            "answer": "Hay 0 productos sin stock "
+            "answer": "Hay 1 producto sin stock "
           }
         ],
         "clients.count": [
