@@ -23,17 +23,14 @@ export const users = mysqlTable("users", {
 	fullName: varchar("full_name", { length: 256 }).notNull(),
 	email: varchar("email", { length: 256 }).unique().notNull(),
 	password: varchar("password", { length: 256 }).notNull(),
-	role: mysqlEnum("role", ["ADMIN", "USER"]).default("USER"),
+	role: mysqlEnum("role", ["ADMIN", "USER"]).notNull(),
 });
 
 /**
  * The user relations.
  */
-export const usersRelations = relations(users, ({ one }) => ({
-	messages: one(messages, {
-		fields: [users.id],
-		references: [messages.userId],
-	}),
+export const usersRelations = relations(users, ({ many }) => ({
+	messages: many(messages),
 }));
 
 export const insertUserSchema = createInsertSchema(users, {

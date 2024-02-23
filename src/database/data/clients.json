@@ -1,0 +1,62 @@
+[
+	{
+		"fullName": "Juan Pérez",
+		"email": "juan.perez@ejemplo.com",
+		"phoneNumber": "+58 412-555-1212",
+		"address": "Calle 12, Caracas, Venezuela"
+	},
+	{
+		"fullName": "María Gómez",
+		"email": "maria.gomez@ejemplo.com",
+		"phoneNumber": "+58 414-555-1212",
+		"address": "Avenida Principal, Maracaibo, Venezuela"
+	},
+	{
+		"fullName": "Pedro López",
+		"email": "pedro.lopez@ejemplo.com",
+		"phoneNumber": "+58 424-555-1212",
+		"address": "Calle 5, Valencia, Venezuela"
+	},
+	{
+		"fullName": "Ana Martínez",
+		"email": "ana.martinez@ejemplo.com",
+		"phoneNumber": "+58 416-555-1212",
+		"address": "Urbanización La California, Caracas, Venezuela"
+	},
+	{
+		"fullName": "Luis García",
+		"email": "luis.garcia@ejemplo.com",
+		"phoneNumber": "+58 426-555-1212",
+		"address": "Barrio El Paraíso, Caracas, Venezuela"
+	},
+	{
+		"fullName": "Sandra Rodríguez",
+		"email": "sandra.rodriguez@ejemplo.com",
+		"phoneNumber": "+58 418-555-1212",
+		"address": "Calle Mayor, Barquisimeto, Venezuela"
+	},
+	{
+		"fullName": "Carlos Díaz",
+		"email": "carlos.diaz@ejemplo.com",
+		"phoneNumber": "+58 428-555-1212",
+		"address": "Avenida Bolívar, San Cristóbal, Venezuela"
+	},
+	{
+		"fullName": "Carolina Herrera",
+		"email": "carolina.herrera@ejemplo.com",
+		"phoneNumber": "+58 419-555-1212",
+		"address": "Urbanización El Bosque, Maracay, Venezuela"
+	},
+	{
+		"fullName": "Francisco Silva",
+		"email": "francisco.silva@ejemplo.com",
+		"phoneNumber": "+58 429-555-1212",
+		"address": "Calle Sucre, Puerto La Cruz, Venezuela"
+	},
+	{
+		"fullName": "Gabriela Blanco",
+		"email": "gabriela.blanco@ejemplo.com",
+		"phoneNumber": "+58 420-555-1212",
+		"address": "Avenida Intercomunal, Maturín, Venezuela"
+	}
+]

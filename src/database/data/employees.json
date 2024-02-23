@@ -1,0 +1,135 @@
+[
+	{
+		"fullName": "John Doe",
+		"laborDescription": "Agente de ventas",
+		"hourlyRate": "15.00",
+		"role": "WORKER",
+		"phoneNumber": "555-1234"
+	},
+	{
+		"fullName": "Jane Smith",
+		"laborDescription": "Cajero",
+		"hourlyRate": "12.50",
+		"role": "WORKER",
+		"phoneNumber": "555-5678"
+	},
+	{
+		"fullName": "Mike Johnson",
+		"laborDescription": "Subdirector",
+		"hourlyRate": "20.00",
+		"role": "WORKER",
+		"phoneNumber": "555-9012"
+	},
+	{
+		"fullName": "Sara Davis",
+		"laborDescription": "Director de Tienda",
+		"hourlyRate": "25.00",
+		"role": "WORKER",
+		"phoneNumber": "555-3456"
+	},
+	{
+		"fullName": "Chris Wilson",
+		"laborDescription": "Control de Inventario",
+		"hourlyRate": "18.00",
+		"role": "WORKER",
+		"phoneNumber": "555-7890"
+	},
+	{
+		"fullName": "Amy Thompson",
+		"laborDescription": "Atención al cliente",
+		"hourlyRate": "14.00",
+		"role": "WORKER",
+		"phoneNumber": "555-2345"
+	},
+	{
+		"fullName": "David Brown",
+		"laborDescription": "Agente de ventas",
+		"hourlyRate": "15.00",
+		"role": "WORKER",
+		"phoneNumber": "555-6789"
+	},
+	{
+		"fullName": "Jennifer Lee",
+		"laborDescription": "Cajero",
+		"hourlyRate": "12.50",
+		"role": "WORKER",
+		"phoneNumber": "555-0123"
+	},
+	{
+		"fullName": "Brian Clark",
+		"laborDescription": "Subdirector",
+		"hourlyRate": "20.00",
+		"role": "WORKER",
+		"phoneNumber": "555-4567"
+	},
+	{
+		"fullName": "Rachel Green",
+		"laborDescription": "Director de tienda",
+		"hourlyRate": "25.00",
+		"role": "WORKER",
+		"phoneNumber": "555-8901"
+	},
+	{
+		"fullName": "Tom Wilson",
+		"laborDescription": "Control de inventario",
+		"hourlyRate": "18.00",
+		"role": "WORKER",
+		"phoneNumber": "555-2345"
+	},
+	{
+		"fullName": "Emily Davis",
+		"laborDescription": "Atención al cliente",
+		"hourlyRate": "14.00",
+		"role": "WORKER",
+		"phoneNumber": "555-6789"
+	},
+	{
+		"fullName": "Michael Johnson",
+		"laborDescription": "Agente de ventas",
+		"hourlyRate": "15.00",
+		"role": "WORKER",
+		"phoneNumber": "555-0123"
+	},
+	{
+		"fullName": "Jessica Smith",
+		"laborDescription": "Cajero",
+		"hourlyRate": "12.50",
+		"role": "WORKER",
+		"phoneNumber": "555-4567"
+	},
+	{
+		"fullName": "Daniel Brown",
+		"laborDescription": "Subdirector",
+		"hourlyRate": "20.00",
+		"role": "WORKER",
+		"phoneNumber": "555-8901"
+	},
+	{
+		"fullName": "Olivia Wilson",
+		"laborDescription": "Director de tienda",
+		"hourlyRate": "25.00",
+		"role": "WORKER",
+		"phoneNumber": "555-2345"
+	},
+	{
+		"fullName": "Andrew Thompson",
+		"laborDescription": "Control de inventario",
+		"hourlyRate": "18.00",
+		"role": "WORKER",
+		"phoneNumber": "555-6789"
+	},
+	{
+		"fullName": "Sophia Clark",
+		"laborDescription": "Atención al cliente",
+		"hourlyRate": "14.00",
+		"role": "WORKER",
+		"phoneNumber": "555-0123"
+	},
+	{
+		"fullName": "Matthew Green",
+		"laborDescription": "Agente de ventas",
+		"hourlyRate": "15.00",
+		"role": "WORKER",
+		"phoneNumber": "555-4567"
+	}
+]

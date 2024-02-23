@@ -1,0 +1,72 @@
+[
+	{
+		"name": "Sofa",
+		"description": "Un sofá es un asiento largo con respaldo para varias personas. Se suele colocar en la sala de estar y se utiliza para relajarse, ver la televisión o leer.",
+		"salesPrice": "0",
+		"stock": 6,
+		"productionCost": "0"
+	},
+	{
+		"name": "Silla",
+		"description": "Una silla es un asiento con respaldo para una persona. Se utiliza para sentarse en una mesa, en un escritorio o en cualquier otro lugar.",
+		"salesPrice": "0",
+		"stock": 10,
+		"productionCost": "0"
+	},
+	{
+		"name": "Mesa",
+		"description": "Una mesa es una superficie plana y elevada que se sostiene con una o más patas. Se utiliza para comer, trabajar o escribir",
+		"salesPrice": "0",
+		"stock": 24,
+		"productionCost": "0"
+	},
+	{
+		"name": "Cama",
+		"description": "Una cama es un mueble donde la gente duerme. Se compone de un marco, un colchón y ropa de cama",
+		"salesPrice": "0",
+		"stock": 12,
+		"productionCost": "0"
+	},
+	{
+		"name": "Estante",
+		"description": "Un estante es una tabla larga y estrecha que se fija a la pared para guardar libros, platos u otros objetos",
+		"salesPrice": "0",
+		"stock": 65,
+		"productionCost": "0"
+	},
+	{
+		"name": "Armario",
+		"description": "Un armario es un mueble alto con puertas que se utiliza para guardar ropa.",
+		"salesPrice": "0",
+		"stock": 0,
+		"productionCost": "0"
+	},
+	{
+		"name": "Cómoda",
+		"description": "Una cómoda es un mueble bajo con cajones que se utiliza para guardar ropa u otros objetos.",
+		"salesPrice": "0",
+		"stock": 4,
+		"productionCost": "0"
+	},
+	{
+		"name": "Mueble de TV",
+		"description": "Un mueble de TV es un mueble bajo y largo que se utiliza para colocar un televisor.",
+		"salesPrice": "0",
+		"stock": 8,
+		"productionCost": "0"
+	},
+	{
+		"name": "Mesa de centro",
+		"description": "Una mesa de centro es una mesa pequeña que se coloca en el centro de una sala de estar. Se utiliza para colocar bebidas, bocadillos u otros objetos.",
+		"salesPrice": "0",
+		"stock": 10,
+		"productionCost": "0"
+	},
+	{
+		"name": "Lámpara",
+		"description": "Una lámpara es un dispositivo que produce luz. Se utiliza para iluminar una habitación o un área específica.",
+		"salesPrice": "0",
+		"stock": 10,
+		"productionCost": "0"
+	}
+]

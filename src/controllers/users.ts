@@ -4,7 +4,7 @@ import { validator } from "hono/validator";
 
 import { db } from "~/database/database";
 import { insertUserSchema, users } from "~/database/schema";
-import { response, setJwt } from "~/shared/utils";
+import { getJwt, response, setJwt } from "~/shared/utils";
 
 const app = new Hono();
 
@@ -14,7 +14,9 @@ const app = new Hono();
 app.post(
 	"/sign-up",
 	validator("json", (json, c) => {
-		const parsedUser = insertUserSchema.safeParse(json);
+		const parsedUser = insertUserSchema
+			.omit({ role: true })
+			.safeParse(json);
 
 		if (!parsedUser.success) {
 			return response(c, {
@@ -49,17 +51,32 @@ app.post(
 			role: "USER",
 		});
 
+		const newUser = await db.query.users.findFirst({
+			columns: {
+				id: true,
+				fullName: true,
+				email: true,
+				role: true,
+			},
+			where: (users, { eq }) => eq(users.id, insertId),
+		});
+
+		if (newUser === undefined) {
+			return response(c, {
+				status: 400,
+				message: "User couldn't be created",
+			});
+		}
+
+		// Set the JWT.
+		const token = await setJwt(c, newUser.id);
+
 		return response(c, {
 			status: 200,
-			data: await db.query.users.findFirst({
-				columns: {
-					id: true,
-					fullName: true,
-					email: true,
-					role: true,
-				},
-				where: (users, { eq }) => eq(users.id, insertId),
-			}),
+			data: {
+				...newUser,
+				token,
+			},
 		});
 	},
 );
@@ -114,5 +131,53 @@ app.post(
 		});
 	},
 );
+
+/**
+ * Logs out the user.
+ */
+app.post("/logout", async (c) => {
+	const jwt = await getJwt(c);
+
+	if (jwt === undefined) {
+		return response(c, {
+			status: 404,
+			message: "Token not found",
+		});
+	}
+
+	c.set("jwtPayload", null);
+
+	return response(c, {
+		status: 200,
+		message: "Logout successfully",
+	});
+});
+
+/**
+ * Get the logged user.
+ */
+app.get("/me", async (c) => {
+	const userId = (await getJwt(c))?.userId;
+
+	if (userId === undefined) {
+		return response(c, {
+			status: 404,
+			message: "Token not found",
+		});
+	}
+
+	return response(c, {
+		status: 200,
+		data: await db.query.users.findFirst({
+			columns: {
+				id: true,
+				email: true,
+				fullName: true,
+				role: true,
+			},
+			where: (users, { eq }) => eq(users.id, userId),
+		}),
+	});
+});
 
 export default app;
